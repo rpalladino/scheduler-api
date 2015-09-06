@@ -1,0 +1,16 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Scheduler\\": "src/"
+        }
+    },
+    "require-dev": {
+        "behat/behat": "^3.0",
+        "phpspec/phpspec": "^2.2",
+        "phpunit/dbunit": "^1.4",
+        "phpunit/phpunit": "^4.8",
+        "psy/psysh": "^0.5.2"
+    },
+    "require": {
+    }
+}

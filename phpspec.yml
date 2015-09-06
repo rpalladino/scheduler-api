@@ -1,0 +1,4 @@
+suites:
+    default:
+        namespace: Scheduler
+        psr4_prefix: Scheduler
