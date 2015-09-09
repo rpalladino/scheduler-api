@@ -1,0 +1,90 @@
+users:
+  -
+    id: 1
+    name: "John Williamson"
+    role: "manager"
+    email: "jwilliamson@gmail.com"
+    phone: "312-332-1233"
+    created_at: "2015-07-03 08:44:05"
+    updated_at: "2015-09-06 13:24:57"
+  -
+    id: 2
+    name: "Richard Roma"
+    role: "employee"
+    email: "ricky@roma.com"
+    phone: "312-331-3322"
+    created_at: "2015-07-03 08:54:21"
+    updated_at: "2015-09-06 13:22:15"
+  -
+    id: 3
+    name: "Shelly Levene"
+    role: "employee"
+    email: "oldguy@aol.com"
+    phone: "312-331-1212"
+    created_at: "2015-07-03 08:56:15"
+    updated_at: "2015-09-06 14:08:32"
+
+shifts:
+  -
+    id: 1
+    manager_id: 1
+    employee_id: 2
+    break: 0.5
+    start_time: "2015-09-07 17:30:00"
+    end_time: "2015-09-07 23:30:00"
+    created_at: "2015-09-03 15:11:23"
+    updated_at: "2015-09-03 15:11:23"
+  -
+    id: 2
+    manager_id: 1
+    employee_id: 2
+    break: 0.5
+    start_time: "2015-09-08 17:30:00"
+    end_time: "2015-09-08 23:30:00"
+    created_at: "2015-09-03 15:12:23"
+    updated_at: "2015-09-03 15:12:23"
+  -
+    id: 3
+    manager_id: 1
+    employee_id: 3
+    break: 0.5
+    start_time: "2015-09-07 17:30:00"
+    end_time: "2015-09-07 23:30:00"
+    created_at: "2015-09-03 15:13:23"
+    updated_at: "2015-09-03 15:13:23"
+  -
+    id: 4
+    manager_id: 1
+    employee_id: 3
+    break: 0.5
+    start_time: "2015-09-08 17:30:00"
+    end_time: "2015-09-08 23:30:00"
+    created_at: "2015-09-03 15:14:23"
+    updated_at: "2015-09-03 15:14:23"
+  -
+    id: 5
+    manager_id: 1
+    employee_id: 3
+    break: 0.5
+    start_time: "2015-09-09 17:30:00"
+    end_time: "2015-09-09 23:30:00"
+    created_at: "2015-09-03 15:15:23"
+    updated_at: "2015-09-03 15:15:23"
+  -
+    id: 6
+    manager_id: 1
+    employee_id: null
+    break: 0.5
+    start_time: "2015-09-10 10:30:00"
+    end_time: "2015-09-10 13:30:00"
+    created_at: "2015-09-03 15:15:23"
+    updated_at: "2015-09-03 15:15:23"
+  -
+    id: 7
+    manager_id: 1
+    employee_id: null
+    break: 0.5
+    start_time: "2015-09-11 10:30:00"
+    end_time: "2015-09-11 13:30:00"
+    created_at: "2015-09-03 15:15:23"
+    updated_at: "2015-09-03 15:15:23"
