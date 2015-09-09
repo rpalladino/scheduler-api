@@ -4,6 +4,11 @@
             "Scheduler\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Scheduler\\Test\\": "tests"
+        }
+    },
     "require-dev": {
         "behat/behat": "^3.0",
         "phpspec/phpspec": "^2.2",
