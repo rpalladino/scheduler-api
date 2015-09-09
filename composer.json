@@ -12,5 +12,7 @@
         "psy/psysh": "^0.5.2"
     },
     "require": {
+        "doctrine/dbal": "^2.5",
+        "vlucas/phpdotenv": "^2.0"
     }
 }
