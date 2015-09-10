@@ -18,6 +18,10 @@
     },
     "require": {
         "doctrine/dbal": "^2.5",
-        "vlucas/phpdotenv": "^2.0"
-    }
+        "radar/adr": "1.x-dev",
+        "vlucas/phpdotenv": "^2.0",
+        "zendframework/zend-diactoros": "^1.0@dev"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
