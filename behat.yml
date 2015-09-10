@@ -1,4 +1,8 @@
 default:
   suites:
-    default:
-      contexts: [ ]
+    manager_api:
+      contexts: [ ManagerApiContext ]
+      filters: { role: manager }
+    employee_api:
+      contexts: [ EmployeeApiContext ]
+      filters: { role: employee }
