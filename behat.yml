@@ -6,3 +6,7 @@ default:
     employee_api:
       contexts: [ EmployeeApiContext ]
       filters: { role: employee }
+  extensions:
+      Rezzza\RestApiBehatExtension\Extension:
+        rest:
+          base_url: http://localhost:8000/

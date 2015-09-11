@@ -11,10 +11,12 @@
     },
     "require-dev": {
         "behat/behat": "^3.0",
+        "bossa/phpspec2-expect": "dev-master",
         "phpspec/phpspec": "^2.2",
         "phpunit/dbunit": "^1.4",
         "phpunit/phpunit": "^4.8",
-        "psy/psysh": "^0.5.2"
+        "psy/psysh": "^0.5.2",
+        "rezzza/rest-api-behat-extension": "^2.0@dev"
     },
     "require": {
         "doctrine/dbal": "^2.5",

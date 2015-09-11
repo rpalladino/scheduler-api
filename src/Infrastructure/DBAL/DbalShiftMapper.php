@@ -66,8 +66,10 @@ class DbalShiftMapper extends DbalMapper implements ShiftMapper
     {
         return sprintf(
             "SELECT %s, %s, %s
-             FROM shifts s, users m, users e
-             WHERE %%s and s.manager_id = m.id and s.employee_id = e.id",
+             FROM shifts s
+                LEFT JOIN users m ON (s.manager_id = m.id)
+                LEFT JOIN users e on (s.employee_id = e.id)
+             WHERE %%s",
             self::SHIFT_COLUMNS,
             self::MANAGER_COLUMNS,
             self::EMPLOYEE_COLUMNS

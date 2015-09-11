@@ -100,7 +100,7 @@ class DbalShiftMapperTest extends DbalTestCase
             [
                 "start" => new DateTime("2015-09-01"),
                 "end" => new DateTime("2015-09-15"),
-                "count" => 5
+                "count" => 7
             ]
         ];
     }

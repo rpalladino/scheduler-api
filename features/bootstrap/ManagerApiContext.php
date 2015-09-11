@@ -5,6 +5,8 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Rezzza\RestApiBehatExtension\Rest\RestApiBrowser;
+use Rezzza\RestApiBehatExtension\Json\JsonInspector;
 
 use Aura\Di\ContainerBuilder;
 use Dotenv\Dotenv;
@@ -19,6 +21,10 @@ use Scheduler\REST\Radar\Config\ServiceConfig;
  */
 class ManagerApiContext implements Context, SnippetAcceptingContext
 {
+    private $restApiBrowser;
+    private $jsonInspector;
+
+    private $container;
     private $shiftMapper;
     private $userMapper;
 
@@ -29,8 +35,11 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct()
+    public function __construct(RestApiBrowser $restApiBrowser, JsonInspector $jsonInspector)
     {
+        $this->restApiBrowser = $restApiBrowser;
+        $this->jsonInspector = $jsonInspector;
+
         $dotenv = new Dotenv(__DIR__ . "/../../");
         $dotenv->load();
 
@@ -48,6 +57,15 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     public function transformStringToDate($string)
     {
         return new DateTime($string);
+    }
+
+    /**
+     * @Transform :startString
+     * @Transform :endString
+     */
+    public function transformStringToRfc3339DateString($string)
+    {
+        return (new DateTime($string))->format(DATE_RFC3339);
     }
 
     /**
@@ -79,11 +97,16 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I list the shifts between :arg1 and :arg2
+     * @When I list the shifts between :startString and :endString
      */
-    public function iListTheShiftsBetweenAnd($arg1, $arg2)
+    public function iListTheShiftsBetweenAnd($startString, $endString)
     {
-        throw new PendingException();
+        $url = sprintf("/shifts?start=%s&end=%s", $startString, $endString);
+
+        $this->restApiBrowser->sendRequest('GET', $url);
+
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(200);
+        $this->shifts =  $this->jsonInspector->readJsonNodeValue('shifts');
     }
 
     /**
