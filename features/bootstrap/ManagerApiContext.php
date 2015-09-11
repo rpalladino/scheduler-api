@@ -12,7 +12,7 @@ use Aura\Di\ContainerBuilder;
 use Dotenv\Dotenv;
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\REST\Radar\Config\ServiceConfig;
+use Scheduler\Infrastructure\Radar\Config\ServiceConfig;
 
 /**
  * Defines application features from the specific context.

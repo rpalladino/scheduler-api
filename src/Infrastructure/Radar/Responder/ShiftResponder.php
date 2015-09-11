@@ -1,6 +1,6 @@
 <?php
 
-namespace Scheduler\REST\Radar\Responder;
+namespace Scheduler\Infrastructure\Radar\Responder;
 
 use Scheduler\REST\Resource\ShiftResource;
 

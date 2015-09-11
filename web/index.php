@@ -12,9 +12,9 @@ $dotenv->load();
 
 $boot = new Boot();
 $adr = $boot->adr([
-    Scheduler\REST\Radar\Config\ServiceConfig::class,
-    Scheduler\REST\Radar\Config\MiddlewareConfig::class,
-    Scheduler\REST\Radar\Config\RoutesConfig::class
+    Scheduler\Infrastructure\Radar\Config\ServiceConfig::class,
+    Scheduler\Infrastructure\Radar\Config\MiddlewareConfig::class,
+    Scheduler\Infrastructure\Radar\Config\RoutesConfig::class
 ]);
 
 $adr->run(ServerRequestFactory::fromGlobals(), new Response());

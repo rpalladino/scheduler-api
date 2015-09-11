@@ -1,13 +1,13 @@
 <?php
 
-namespace Scheduler\REST\Radar\Config;
+namespace Scheduler\Infrastructure\Radar\Config;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
 use Aura\Payload_Interface\PayloadInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Scheduler\Application\Service\GetShiftsInTimePeriod;
-use Scheduler\REST\Radar\Responder\ShiftResponder;
+use Scheduler\Infrastructure\Radar\Responder\ShiftResponder;
 use Scheduler\REST\Resource\ShiftResource;
 use Scheduler\REST\Resource\UserResource;
 

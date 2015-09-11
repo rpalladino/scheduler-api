@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Scheduler\REST\Radar\Responder;
+namespace spec\Scheduler\Infrastructure\Radar\Responder;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -17,6 +17,6 @@ class ShiftResponderSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Scheduler\REST\Radar\Responder\ShiftResponder');
+        $this->shouldHaveType('Scheduler\Infrastructure\Radar\Responder\ShiftResponder');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Scheduler\REST\Radar\Config;
+namespace Scheduler\Infrastructure\Radar\Config;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
