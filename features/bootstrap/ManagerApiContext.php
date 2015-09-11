@@ -69,6 +69,15 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Transform :count
+     */
+    public function transformStringToIngeger($string)
+    {
+        return (int) $string;
+    }
+
+
+    /**
      * @BeforeScenario
      */
     public function cleanDatabase()
@@ -110,18 +119,10 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then there should be :arg1 shifts in the schedule
+     * @Then there should be :count shift(s) in the schedule
      */
-    public function thereShouldBeShiftsInTheSchedule($arg1)
+    public function thereShouldBeShiftsInTheSchedule($count)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then there should be :arg1 shift in the schedule
-     */
-    public function thereShouldBeShiftInTheSchedule($arg1)
-    {
-        throw new PendingException();
+        expect($this->shifts)->toHaveCount($count);
     }
 }
