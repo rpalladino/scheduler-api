@@ -43,7 +43,7 @@ class GetShiftsInTimePeriodSpec extends ObjectBehavior
         $shiftMapper->findShiftsInTimePeriod($start, $end)->willReturn($shifts);
         $this->beConstructedWith($shiftMapper);
 
-        $payload = $this($start, $end);
+        $payload = $this($start->format(DATE_RFC3339), $end->format(DATE_RFC3339));
 
         $payload->shouldImplement(PayloadInterface::class);
         $payload->getOutput()->shouldHaveCount(2);

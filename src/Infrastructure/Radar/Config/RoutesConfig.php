@@ -35,8 +35,8 @@ class RoutesConfig extends ContainerConfig
             ->input(function (Request $request) {
                 $queryParams = $request->getQueryParams();
                 return [
-                    new \DateTimeImmutable(urldecode($queryParams["start"])),
-                    new \DateTimeImmutable(urldecode($queryParams["end"]))
+                    $queryParams["start"],
+                    $queryParams["end"]
                 ];
             })
             ->responder(ShiftResponder::class);
