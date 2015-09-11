@@ -6,11 +6,22 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 
+use Aura\Di\ContainerBuilder;
+use Dotenv\Dotenv;
+use Scheduler\Domain\Model\Shift\Shift;
+use Scheduler\Domain\Model\Shift\ShiftMapper;
+use Scheduler\Domain\Model\User\User;
+use Scheduler\Domain\Model\User\UserMapper;
+use Scheduler\REST\Radar\Config\ServiceConfig;
+
 /**
  * Defines application features from the specific context.
  */
 class ManagerApiContext implements Context, SnippetAcceptingContext
 {
+    private $shiftMapper;
+    private $userMapper;
+
     /**
      * Initializes context.
      *
@@ -20,14 +31,51 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
      */
     public function __construct()
     {
+        $dotenv = new Dotenv(__DIR__ . "/../../");
+        $dotenv->load();
+
+        $builder = new ContainerBuilder();
+        $this->container = $builder->newConfiguredInstance([ServiceConfig::class]);
+
+        $this->shiftMapper = $this->container->get(ShiftMapper::class);
+        $this->userMapper = $this->container->get(UserMapper::class);
     }
 
     /**
-     * @Given there is a shift starting at :arg1 and ending at :arg2
+     * @Transform :start
+     * @Transform :end
      */
-    public function thereIsAShiftStartingAtAndEndingAt($arg1, $arg2)
+    public function transformStringToDate($string)
     {
-        throw new PendingException();
+        return new DateTime($string);
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function cleanDatabase()
+    {
+        $schema = $this->container->get('db.schema');
+        $schema->drop();
+        $schema->create();
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function setManager()
+    {
+        $this->manager = User::managerNamedWithEmail("John Williamson", "jwilliamson@gmail.com");
+        $this->userMapper->insert($this->manager);
+    }
+
+    /**
+     * @Given there is a shift starting at :start and ending at :end
+     */
+    public function thereIsAShiftStartingAtAndEndingAt($start, $end)
+    {
+        $aShift = Shift::withManagerAndTimes($this->manager, $start, $end);
+        $this->shiftMapper->insert($aShift);
     }
 
     /**
