@@ -7,6 +7,7 @@ use Prophecy\Argument;
 
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\User\User;
+use Scheduler\REST\Resource\UserResource;
 
 class ShiftResourceSpec extends ObjectBehavior
 {
@@ -18,6 +19,11 @@ class ShiftResourceSpec extends ObjectBehavior
             "start" => new \DateTimeImmutable("2015-12-24 07:00:00"),
             "end" => new \DateTimeImmutable("2015-12-24 12:00:00")
         ];
+    }
+
+    function let()
+    {
+        $this->beConstructedWith(new UserResource());
     }
 
     function it_can_transform_a_single_shift()

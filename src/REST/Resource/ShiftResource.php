@@ -3,29 +3,26 @@
 namespace Scheduler\REST\Resource;
 
 use Scheduler\Domain\Model\Shift\Shift;
+use Scheduler\REST\Resource\UserResource;
 
 class ShiftResource
 {
+    private $userResource;
+
+    public function __construct(UserResource $userResource)
+    {
+        $this->userResource = $userResource;
+    }
 
     public function transform(Shift $shift)
     {
         return [
             "id" => $shift->getId(),
-            "manager" => [
-                "id" => $shift->getManager()->getId(),
-                "name" => $shift->getManager()->getName(),
-                "email" => $shift->getManager()->getEmail(),
-                "phone" => $shift->getManager()->getPhone()
-            ],
+            "manager" => $this->userResource->transform($shift->getManager()),
             "start_time" => $shift->getStartTime()->format(DATE_RFC2822),
             "end_time" => $shift->getEndTime()->format(DATE_RFC2822),
             "break" => $shift->getBreak(),
-            "employee" => [
-                "id" => $shift->getEmployee()->getId(),
-                "name" => $shift->getEmployee()->getName(),
-                "email" => $shift->getEmployee()->getEmail(),
-                "phone" => $shift->getEmployee()->getPhone()
-            ]
+            "employee" => $this->userResource->transform($shift->getEmployee())
         ];
     }
 

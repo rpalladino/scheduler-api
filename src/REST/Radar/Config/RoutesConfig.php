@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Scheduler\Application\Service\GetShiftsInTimePeriod;
 use Scheduler\REST\Radar\Responder\ShiftResponder;
 use Scheduler\REST\Resource\ShiftResource;
+use Scheduler\REST\Resource\UserResource;
 
 class RoutesConfig extends ContainerConfig
 {
@@ -21,6 +22,9 @@ class RoutesConfig extends ContainerConfig
         $di->params[ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
 
         $di->set("shift.resource", $di->lazyNew(ShiftResource::class));
+        $di->params[ShiftResource::class]["userResource"] = $di->lazyGet("user.resource");
+
+        $di->set("user.resource", $di->lazyNew(UserResource::class));
     }
 
     public function modify(Container $di)
