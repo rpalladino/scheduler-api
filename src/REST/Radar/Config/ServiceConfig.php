@@ -27,11 +27,11 @@ class ServiceConfig extends ContainerConfig
         $di->set('db.schema', $di->lazyNew(DBAL\DbalSchema::class));
         $di->params[DBAL\DbalSchema::class]['connection'] = $di->lazyGet('db.connection');
 
-        $di->set(UserMapper::class, $di->lazyNew(DBAL\DbalUserMapper::class));
+        $di->set("user.mapper", $di->lazyNew(DBAL\DbalUserMapper::class));
         $di->params[DBAL\DbalUserMapper::class]['db'] = $di->lazyGet('db.connection');
 
-        $di->set(ShiftMapper::class, $di->lazyNew(DBAL\DbalShiftMapper::class));
+        $di->set("shift.mapper", $di->lazyNew(DBAL\DbalShiftMapper::class));
         $di->params[DBAL\DbalShiftMapper::class]['db'] = $di->lazyGet('db.connection');
-        $di->params[DBAL\DbalShiftMapper::class]['userMapper'] = $di->lazyGet(UserMapper::class);
+        $di->params[DBAL\DbalShiftMapper::class]['userMapper'] = $di->lazyGet("user.mapper");
     }
 }

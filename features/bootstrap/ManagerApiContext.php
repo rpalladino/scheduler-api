@@ -11,9 +11,7 @@ use Rezzza\RestApiBehatExtension\Json\JsonInspector;
 use Aura\Di\ContainerBuilder;
 use Dotenv\Dotenv;
 use Scheduler\Domain\Model\Shift\Shift;
-use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\Domain\Model\User\UserMapper;
 use Scheduler\REST\Radar\Config\ServiceConfig;
 
 /**
@@ -46,8 +44,8 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
         $builder = new ContainerBuilder();
         $this->container = $builder->newConfiguredInstance([ServiceConfig::class]);
 
-        $this->shiftMapper = $this->container->get(ShiftMapper::class);
-        $this->userMapper = $this->container->get(UserMapper::class);
+        $this->shiftMapper = $this->container->get("shift.mapper");
+        $this->userMapper = $this->container->get("user.mapper");
     }
 
     /**

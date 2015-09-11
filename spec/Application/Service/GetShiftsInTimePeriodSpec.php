@@ -46,9 +46,8 @@ class GetShiftsInTimePeriodSpec extends ObjectBehavior
         $payload = $this($start, $end);
 
         $payload->shouldImplement(PayloadInterface::class);
-        $shifts = $payload->getOutput()->getWrappedObject()["shifts"];
-        expect($shifts)->toHaveCount(2);
-        expect($shifts)->toContain($shifts[0]);
-        expect($shifts)->toContain($shifts[1]);
+        $payload->getOutput()->shouldHaveCount(2);
+        $payload->getOutput()->shouldContain($shifts[0]);
+        $payload->getOutput()->shouldContain($shifts[1]);
     }
 }
