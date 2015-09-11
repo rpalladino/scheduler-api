@@ -6,6 +6,8 @@ use Scheduler\REST\Resource\ShiftResource;
 
 class ShiftResponder extends \Radar\Adr\Responder\Responder
 {
+    use ApiProblemResponder;
+
     private $resource;
 
     public function __construct(ShiftResource $resource)
