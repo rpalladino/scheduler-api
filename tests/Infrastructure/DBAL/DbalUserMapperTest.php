@@ -2,6 +2,7 @@
 
 namespace Scheduler\Test\Infrastructure\DBAL;
 
+use Scheduler\Domain\Model\User\NullUser;
 use Scheduler\Domain\Model\User\User;
 use Scheduler\Infrastructure\DBAL\DbalUserMapper;
 
@@ -28,6 +29,16 @@ class DbalUserMapperTest extends DbalTestCase
         $this->assertEquals("312-332-1233", $user->getPhone());
         $this->assertEquals("2015-07-03 08:44:05", $user->getCreated()->format('Y-m-d H:i:s'));
         $this->assertEquals("2015-09-06 13:24:57", $user->getUpdated()->format('Y-m-d H:i:s'));
+    }
+
+    /**
+     * @test
+     */
+    function itReturnsNullUserIfNotFound()
+    {
+        $user = $this->userMapper->find(76543);
+
+        $this->assertTrue($user instanceof NullUser);
     }
 
     /**

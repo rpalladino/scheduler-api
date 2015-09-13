@@ -88,10 +88,23 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     /**
      * @BeforeScenario
      */
-    public function setManager()
+    public function asAManager()
     {
         $this->manager = User::managerNamedWithEmail("John Williamson", "jwilliamson@gmail.com");
         $this->userMapper->insert($this->manager);
+
+        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_a_manager");
+    }
+
+    /**
+     * @Given I am an employee
+     */
+    public function iAmAnEmployee()
+    {
+        $this->employee = User::employeeNamedWithEmail("Richard Roma", "ricky@roma.com");
+        $this->userMapper->insert($this->employee);
+
+        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_an_employee");
     }
 
     /**
@@ -112,8 +125,9 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
 
         $this->restApiBrowser->sendRequest('GET', $url);
 
-        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(200);
-        $this->shifts =  $this->jsonInspector->readJsonNodeValue('shifts');
+        if ($this->restApiBrowser->getResponse()->getStatusCode() == 200) {
+            $this->shifts =  $this->jsonInspector->readJsonNodeValue('shifts');
+        }
     }
 
     /**
@@ -122,5 +136,15 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     public function thereShouldBeShiftsInTheSchedule($count)
     {
         expect($this->shifts)->toHaveCount($count);
+    }
+
+    /**
+     * @Then I should not be allowed
+     */
+    public function iShouldNotBeAllowed()
+    {
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(403);
+        expect($this->jsonInspector->readJsonNodeValue("status"))->toBe(403);
+        expect($this->jsonInspector->readJsonNodeValue("title", "Unauthorized"));
     }
 }

@@ -5,7 +5,7 @@ namespace spec\Scheduler\Infrastructure\Radar\Middleware;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use Zend\Diactoros\ServerRequestFactory as Request;
+use Zend\Diactoros\ServerRequest as Request;
 use Zend\Diactoros\Response;
 
 class ExceptionHandlerSpec extends ObjectBehavior
@@ -22,33 +22,30 @@ class ExceptionHandlerSpec extends ObjectBehavior
 
     function it_responds_with_message_in_api_problem_format()
     {
-        $newResponse = $this(Request::fromGlobals(), new Response(), $this->exception());
-
-        $parsedBody = (array) json_decode((string) $newResponse->getBody()->getWrappedObject());
-        // eval(\Psy\sh());
-        expect($parsedBody)->toHaveKey('title');
-        expect($parsedBody)->toHaveKey('status');
-        expect($parsedBody)->toHaveKey('detail');
-        expect($parsedBody)->toHaveKey('instance');
+        $response = $this(new Request(), new Response(), $this->exception());
+        $response->getBody()->__toString()->shouldMatch("/status/i");
+        $response->getBody()->__toString()->shouldMatch("/title/i");
+        $response->getBody()->__toString()->shouldMatch("/type/i");
+        $response->getBody()->__toString()->shouldMatch("/detail/i");
     }
 
     function it_gives_exception_message_in_dev()
     {
         putenv("APP_ENV=dev");
 
-        $newResponse = $this(Request::fromGlobals(), new Response(), $this->exception());
+        $response = $this(new Request(), new Response(), $this->exception());
 
-        $newResponse->getBody()->__toString()->shouldMatch("/Exception message/i");
+        $response->getBody()->__toString()->shouldMatch("/Exception message/i");
     }
 
     function it_gives_generic_message_in_prod()
     {
         putenv("APP_ENV=prod");
 
-        $newResponse = $this(Request::fromGlobals(), new Response(), $this->exception());
+        $response = $this(new Request(), new Response(), $this->exception());
 
         $self = $this->getWrappedObject();
-        $newResponse->getBody()->__toString()->shouldMatch("/" . $self::SERVER_ERROR_MESSAGE . "/i");
+        $response->getBody()->__toString()->shouldMatch("/" . $self::SERVER_ERROR_MESSAGE . "/i");
     }
 
     private function exception()

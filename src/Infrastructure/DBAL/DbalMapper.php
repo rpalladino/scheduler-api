@@ -27,6 +27,10 @@ abstract class DbalMapper
         $findStatement->execute();
         $resultSet = $findStatement->fetch();
 
+        if (! $resultSet) {
+            return null;
+        }
+
         return $this->load($resultSet);
     }
 
@@ -60,9 +64,13 @@ abstract class DbalMapper
 
     abstract protected function doLoad($id, array $resultSet);
 
-    abstract protected static function findStatement();
+    protected static function findStatement()
+    {
+    }
 
-    abstract protected static function insertStatement();
+    protected static function insertStatement()
+    {
+    }
 
     protected function load(array $resultSet)
     {

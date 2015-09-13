@@ -7,6 +7,7 @@ use Aura\Di\ContainerConfig;
 use Aura\Payload_Interface\PayloadInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Scheduler\Application\Service\GetShiftsInTimePeriod;
+use Scheduler\Infrastructure\Radar\Responder\Responder;
 use Scheduler\Infrastructure\Radar\Responder\ShiftResponder;
 use Scheduler\REST\Resource\ShiftResource;
 use Scheduler\REST\Resource\UserResource;
@@ -31,13 +32,37 @@ class RoutesConfig extends ContainerConfig
     {
         $adr = $di->get('radar/adr:adr');
 
+        $adr->get('entry', "/", function ($user) {
+            $payload = new \Aura\Payload\Payload();
+
+            if (! $user->isAuthenticated()) {
+                return $payload->setStatus($payload::NOT_AUTHENTICATED);
+            }
+
+            $payload->setStatus($payload::SUCCESS);
+            $payload->setOutput([
+                "links" => [
+                    "shifts" => "/shifts"
+                ]
+            ]);
+
+            return $payload;
+        })
+        ->input(function (Request $request) use ($di) {
+            $token = $request->getHeaderLine("x-access-token");
+            $user = $di->get("auth.authenticator")->getUserForToken($token);
+
+            return [$user];
+        })
+        ->responder(Responder::class);
+
         $adr->get('get.shifts', "/shifts", GetShiftsInTimePeriod::class)
-            ->input(function (Request $request) {
-                $queryParams = $request->getQueryParams();
-                return [
-                    $queryParams["start"],
-                    $queryParams["end"]
-                ];
+            ->input(function (Request $request) use ($di) {
+                $token = $request->getHeaderLine("x-access-token");
+                $user = $di->get("auth.authenticator")->getUserForToken($token);
+                $start = $request->getQueryParams()["start"];
+                $end = $request->getQueryParams()["end"];
+                return [$user, $start, $end];
             })
             ->responder(ShiftResponder::class);
     }

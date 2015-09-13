@@ -6,6 +6,7 @@ use DateTime;
 use Aura\Payload\Payload;
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
+use Scheduler\Domain\Model\User\User;
 
 class GetShiftsInTimePeriod
 {
@@ -20,8 +21,16 @@ class GetShiftsInTimePeriod
         $this->shiftMapper = $shiftMapper;
     }
 
-    public function __invoke($start, $end)
+    public function __invoke(User $user, $start, $end)
     {
+        if (! $user->isAuthenticated()) {
+            return $this->payload->setStatus(Payload::NOT_AUTHENTICATED);
+        }
+
+        if ($user->getRole() !== "manager") {
+            return $this->payload->setStatus(Payload::NOT_AUTHORIZED);
+        }
+
         $invalid = [];
         try {
             $start = new DateTime($start);

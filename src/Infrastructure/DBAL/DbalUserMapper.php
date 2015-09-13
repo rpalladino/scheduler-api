@@ -5,6 +5,7 @@ namespace Scheduler\Infrastructure\DBAL;
 use DateTime;
 use Doctrine\DBAL\Statement;
 use Doctrine\DBAL\Types\Type;
+use Scheduler\Domain\Model\User\NullUser;
 use Scheduler\Domain\Model\User\User;
 use Scheduler\Domain\Model\User\UserMapper;
 
@@ -39,7 +40,13 @@ class DbalUserMapper extends DbalMapper implements UserMapper
             throw new \InvalidArgumentException("The id must be an integer");
         }
 
-        return $this->abstractFind($id);
+        $user = $this->abstractFind($id);
+
+        if ($user == null) {
+            $user = new NullUser();
+        }
+
+        return $user;
     }
 
     public function findByRole($role)

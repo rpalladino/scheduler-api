@@ -28,3 +28,8 @@ Feature: Get shifts within a specific time period
     Given there is a shift starting at "2015-09-04 05:00 AM" and ending at "2015-09-04 12:00 PM"
     When I list the shifts between '2015-09-05 09:00 AM' and '2015-09-05 09:00 PM'
     Then there should be 0 shifts in the schedule
+
+  Scenario: Failue if user is not a manager
+    Given I am an employee
+    When I list the shifts between '2015-09-04' and '2015-09-07'
+    Then I should not be allowed

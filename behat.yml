@@ -6,6 +6,9 @@ default:
     employee_api:
       contexts: [ EmployeeApiContext ]
       filters: { role: employee }
+    api_security:
+      contexts: [ ApiSecurityContext ]
+      filters: { role: user }
   extensions:
       Rezzza\RestApiBehatExtension\Extension:
         rest:

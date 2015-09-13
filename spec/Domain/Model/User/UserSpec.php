@@ -115,4 +115,11 @@ class UserSpec extends ObjectBehavior
         $this->getCreated()->shouldHaveType(DateTimeInterface::class);
         $this->getUpdated()->shouldHaveType(DateTimeInterface::class);
     }
+
+    function it_can_be_authenticated()
+    {
+        $this->shouldNotBeAuthenticated();
+        $this->authenticate();
+        $this->shouldBeAuthenticated();
+    }
 }

@@ -17,6 +17,6 @@ class ShiftResponderSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Scheduler\Infrastructure\Radar\Responder\ShiftResponder');
+        $this->shouldHaveType('\Radar\Adr\Responder\Responder');
     }
 }

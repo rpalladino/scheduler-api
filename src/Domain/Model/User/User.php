@@ -15,6 +15,8 @@ class User
     private $created;
     private $updated;
 
+    private $authenticated;
+
     private static $roles = [
         "employee" => true,
         "manager" => true
@@ -53,6 +55,8 @@ class User
 
         $this->created = $created ?: new DateTime();
         $this->updated = $updated ?: new DateTime();
+
+        $this->authenticated = false;
     }
 
     public function getId()
@@ -88,5 +92,15 @@ class User
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    public function isAuthenticated()
+    {
+        return $this->authenticated;
+    }
+
+    public function authenticate()
+    {
+        $this->authenticated = true;
     }
 }

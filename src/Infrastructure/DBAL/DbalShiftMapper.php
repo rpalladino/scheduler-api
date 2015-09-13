@@ -157,7 +157,7 @@ class DbalShiftMapper extends DbalMapper implements ShiftMapper
                 "email" => $resultSet["e_email"],
                 "phone" => $resultSet["e_phone"],
                 "created_at" => $resultSet["e_created_at"],
-                "updated_at" => $resultSet["enrollments_updated_at"]
+                "updated_at" => $resultSet["e_updated_at"]
               ])
             : new NullUser();
 

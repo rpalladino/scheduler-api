@@ -21,4 +21,10 @@ class NullUserSpec extends ObjectBehavior
         $this->getCreated()->shouldReturn(null);
         $this->getUpdated()->shouldReturn(null);
     }
+
+    function it_cannot_be_authenticated()
+    {
+        $this->authenticate();
+        $this->shouldNotBeAuthenticated();
+    }
 }
