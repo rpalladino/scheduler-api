@@ -2,7 +2,6 @@
 
 namespace Scheduler\Test\Infrastructure\DBAL;
 
-use Dotenv\Dotenv;
 use Doctrine\DBAL\DriverManager;
 use PHPUnit_Extensions_Database_DataSet_YamlDataSet as YamlDataSet;
 use Scheduler\Infrastructure\DBAL\DbalSchema;
@@ -17,9 +16,6 @@ abstract class DbalTestCase extends \PHPUnit_Extensions_Database_TestCase
      */
     public static function setupDatabase()
     {
-        $dotenv = new Dotenv(__DIR__ . "/../../../");
-        $dotenv->load();
-
         self::$dbalConnection = DriverManager::getConnection([
             'dbname' => getenv('DB_NAME'),
             'user' => getenv('DB_USER'),
