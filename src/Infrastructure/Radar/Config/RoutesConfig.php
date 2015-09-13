@@ -6,9 +6,9 @@ use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
 use Aura\Payload_Interface\PayloadInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Scheduler\Application\Service\GetShiftsInTimePeriod;
-use Scheduler\Infrastructure\Radar\Responder\Responder;
-use Scheduler\Infrastructure\Radar\Responder\ShiftResponder;
+use Scheduler\Application\Service;
+use Scheduler\Infrastructure\Radar\Input;
+use Scheduler\Infrastructure\Radar\Responder;
 use Scheduler\REST\Resource\ShiftResource;
 use Scheduler\REST\Resource\UserResource;
 
@@ -16,11 +16,17 @@ class RoutesConfig extends ContainerConfig
 {
     public function define(Container $di)
     {
-        $di->set('shift.domain', $di->lazyNew(GetShiftsInTimePeriod::class));
-        $di->params[GetShiftsInTimePeriod::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
+        $di->set('default:input', $di->lazyNew(Input\RootInput::class));
+        $di->params[Input\Input::class]["authenticator"] = $di->lazyGet("auth.authenticator");
 
-        $di->set("shift.responder", $di->lazyNew(ShiftResponder::class));
-        $di->params[ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
+        $di->set('get/shifts:input', $di->lazyNew(Input\GetShiftsInput::class));
+        $di->params[Input\GetShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
+
+        $di->set('get/shifts:domain', $di->lazyNew(Service\GetShiftsInTimePeriod::class));
+        $di->params[Service\GetShiftsInTimePeriod::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
+
+        $di->set("get/shifts:responder", $di->lazyNew(Responder\ShiftResponder::class));
+        $di->params[Responder\ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
 
         $di->set("shift.resource", $di->lazyNew(ShiftResource::class));
         $di->params[ShiftResource::class]["userResource"] = $di->lazyGet("user.resource");
@@ -31,6 +37,8 @@ class RoutesConfig extends ContainerConfig
     public function modify(Container $di)
     {
         $adr = $di->get('radar/adr:adr');
+        $adr->input(Input\Input::class);
+        $adr->responder(Responder\Responder::class);
 
         $adr->get('entry', "/", function ($user) {
             $payload = new \Aura\Payload\Payload();
@@ -42,28 +50,15 @@ class RoutesConfig extends ContainerConfig
             $payload->setStatus($payload::SUCCESS);
             $payload->setOutput([
                 "links" => [
-                    "shifts" => "/shifts"
+                    "get_shifts" => "/shifts"
                 ]
             ]);
 
             return $payload;
-        })
-        ->input(function (Request $request) use ($di) {
-            $token = $request->getHeaderLine("x-access-token");
-            $user = $di->get("auth.authenticator")->getUserForToken($token);
+        });
 
-            return [$user];
-        })
-        ->responder(Responder::class);
-
-        $adr->get('get.shifts', "/shifts", GetShiftsInTimePeriod::class)
-            ->input(function (Request $request) use ($di) {
-                $token = $request->getHeaderLine("x-access-token");
-                $user = $di->get("auth.authenticator")->getUserForToken($token);
-                $start = $request->getQueryParams()["start"];
-                $end = $request->getQueryParams()["end"];
-                return [$user, $start, $end];
-            })
-            ->responder(ShiftResponder::class);
+        $adr->get('get.shifts', "/shifts", Service\GetShiftsInTimePeriod::class)
+            ->input(Input\GetShiftsInput::class)
+            ->responder(Responder\ShiftResponder::class);
     }
 }
