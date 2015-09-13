@@ -11,8 +11,7 @@ use Rezzza\RestApiBehatExtension\Json\JsonInspector;
  */
 class ApiSecurityContext implements Context, SnippetAcceptingContext
 {
-    private $restApiBrowser;
-    private $jsonInspector;
+    use SchedulerApiCommon;
 
     /**
      * Initializes context.
@@ -23,8 +22,23 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
      */
     public function __construct(RestApiBrowser $restApiBrowser, JsonInspector $jsonInspector)
     {
-        $this->restApiBrowser = $restApiBrowser;
-        $this->jsonInspector = $jsonInspector;
+        $this->initialize($restApiBrowser, $jsonInspector);
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function setUp()
+    {
+        $this->cleanDatabase();
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function asAUser()
+    {
+        $this->iAmAnEmployee();
     }
 
     /**

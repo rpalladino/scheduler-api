@@ -8,23 +8,15 @@ use Behat\Gherkin\Node\TableNode;
 use Rezzza\RestApiBehatExtension\Rest\RestApiBrowser;
 use Rezzza\RestApiBehatExtension\Json\JsonInspector;
 
-use Aura\Di\ContainerBuilder;
-use Dotenv\Dotenv;
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\Infrastructure\Radar\Config\ServiceConfig;
 
 /**
  * Defines application features from the specific context.
  */
 class ManagerApiContext implements Context, SnippetAcceptingContext
 {
-    private $restApiBrowser;
-    private $jsonInspector;
-
-    private $container;
-    private $shiftMapper;
-    private $userMapper;
+    use SchedulerApiCommon;
 
     /**
      * Initializes context.
@@ -35,54 +27,15 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
      */
     public function __construct(RestApiBrowser $restApiBrowser, JsonInspector $jsonInspector)
     {
-        $this->restApiBrowser = $restApiBrowser;
-        $this->jsonInspector = $jsonInspector;
-
-        $dotenv = new Dotenv(__DIR__ . "/../../");
-        $dotenv->load();
-
-        $builder = new ContainerBuilder();
-        $this->container = $builder->newConfiguredInstance([ServiceConfig::class]);
-
-        $this->shiftMapper = $this->container->get("shift.mapper");
-        $this->userMapper = $this->container->get("user.mapper");
+        $this->initialize($restApiBrowser, $jsonInspector);
     }
-
-    /**
-     * @Transform :start
-     * @Transform :end
-     */
-    public function transformStringToDate($string)
-    {
-        return new DateTime($string);
-    }
-
-    /**
-     * @Transform :startString
-     * @Transform :endString
-     */
-    public function transformStringToRfc3339DateString($string)
-    {
-        return (new DateTime($string))->format(DATE_RFC3339);
-    }
-
-    /**
-     * @Transform :count
-     */
-    public function transformStringToIngeger($string)
-    {
-        return (int) $string;
-    }
-
 
     /**
      * @BeforeScenario
      */
-    public function cleanDatabase()
+    public function setUp()
     {
-        $schema = $this->container->get('db.schema');
-        $schema->drop();
-        $schema->create();
+        $this->cleanDatabase();
     }
 
     /**
@@ -90,21 +43,7 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
      */
     public function asAManager()
     {
-        $this->manager = User::managerNamedWithEmail("John Williamson", "jwilliamson@gmail.com");
-        $this->userMapper->insert($this->manager);
-
-        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_a_manager");
-    }
-
-    /**
-     * @Given I am an employee
-     */
-    public function iAmAnEmployee()
-    {
-        $this->employee = User::employeeNamedWithEmail("Richard Roma", "ricky@roma.com");
-        $this->userMapper->insert($this->employee);
-
-        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_an_employee");
+       $this->iAmAManager();
     }
 
     /**
