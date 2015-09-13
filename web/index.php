@@ -14,7 +14,8 @@ $boot = new Boot();
 $adr = $boot->adr([
     Scheduler\Infrastructure\Radar\Config\ServiceConfig::class,
     Scheduler\Infrastructure\Radar\Config\MiddlewareConfig::class,
-    Scheduler\Infrastructure\Radar\Config\RoutesConfig::class
+    Scheduler\Infrastructure\Radar\Config\RoutesConfig::class,
+    Scheduler\Infrastructure\Radar\Config\SeedConfig::class
 ]);
 
 $adr->run(ServerRequestFactory::fromGlobals(), new Response());
