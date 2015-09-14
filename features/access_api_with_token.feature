@@ -14,5 +14,6 @@ Feature: Access api with token
     Then I should see an unauthenticated message
 
   Scenario: Fail when token header missing
+    Given I do not provide an access token
     When I access the api
     Then I should see an unauthenticated message

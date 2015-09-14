@@ -39,7 +39,8 @@ class ServiceConfig extends ContainerConfig
         $di->params[TokenAuthenticator::class]["userMapper"] = $di->lazyGet("user.mapper");
         $di->params[TokenAuthenticator::class]["tokenMap"] = [
             "i_am_a_manager" => 1,
-            "i_am_an_employee" => 2
+            "i_am_an_employee" => 2,
+            "i_am_shelly" => 3
         ];
     }
 }

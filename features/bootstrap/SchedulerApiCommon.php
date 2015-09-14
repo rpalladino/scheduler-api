@@ -68,13 +68,28 @@ trait SchedulerApiCommon
     }
 
     /**
+     * @Given there is a manager
+     */
+    public function thereIsAManager()
+    {
+        $this->manager = User::managerNamedWithEmail("John Williamson", "jwilliamson@gmail.com");
+        $this->userMapper->insert($this->manager);
+    }
+
+    /**
+     * @Given there is an employee
+     */
+    public function thereIsAnEmployee()
+    {
+        $this->employee = User::employeeNamedWithEmail("Richard Roma", "ricky@roma.com");
+        $this->userMapper->insert($this->employee);
+    }
+
+    /**
      * @Given I am an employee
      */
     public function iAmAnEmployee()
     {
-        $this->employee = User::employeeNamedWithEmail("Richard Roma", "ricky@roma.com");
-        $this->userMapper->insert($this->employee);
-
         $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_an_employee");
     }
 
@@ -83,9 +98,14 @@ trait SchedulerApiCommon
      */
     public function iAmAManager()
     {
-        $this->manager = User::managerNamedWithEmail("John Williamson", "jwilliamson@gmail.com");
-        $this->userMapper->insert($this->manager);
-
         $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_a_manager");
+    }
+
+    /**
+     * @Then there should be :count shift(s) in the schedule
+     */
+    public function thereShouldBeShiftsInTheSchedule($count)
+    {
+        expect($this->shifts)->toHaveCount($count);
     }
 }

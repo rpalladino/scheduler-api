@@ -75,7 +75,7 @@ class GetShiftsInTimePeriodSpec extends ObjectBehavior
         $payload->getStatus()->shouldBe(Payload::NOT_AUTHORIZED);
     }
 
-    function it_returns_not_valid_when_start_date_is_not_invalid()
+    function it_returns_not_valid_when_start_date_is_invalid()
     {
         $manager = User::managerNamedWithEmail("John Williamson", "jwilliamson@gmail.com");
         $manager->authenticate();
@@ -87,7 +87,7 @@ class GetShiftsInTimePeriodSpec extends ObjectBehavior
         $payload->getMessages()->shouldHaveKeyWithValue("start", GetShiftsInTimePeriod::INVALID_DATE_MESSAGE);
     }
 
-    function it_returns_not_valid_when_end_date_is_not_invalid()
+    function it_returns_not_valid_when_end_date_is_invalid()
     {
         $manager = User::managerNamedWithEmail("John Williamson", "jwilliamson@gmail.com");
         $manager->authenticate();

@@ -19,6 +19,12 @@ class RoutesConfig extends ContainerConfig
         $di->set('default:input', $di->lazyNew(Input\RootInput::class));
         $di->params[Input\Input::class]["authenticator"] = $di->lazyGet("auth.authenticator");
 
+        $di->set('get/employee/shifts:input', $di->lazyNew(Input\GetEmployeeShiftsInput::class));
+        $di->params[Input\GetEmployeeShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
+
+        $di->set('get/employee/shifts:domain', $di->lazyNew(Service\GetShiftsAssignedToEmployee::class));
+        $di->params[Service\GetShiftsAssignedToEmployee::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
+
         $di->set('get/shifts:input', $di->lazyNew(Input\GetShiftsInput::class));
         $di->params[Input\GetShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
 
@@ -56,6 +62,10 @@ class RoutesConfig extends ContainerConfig
 
             return $payload;
         });
+
+        $adr->get('get.employee.shifts', "/employee/{id}/shifts", Service\GetShiftsAssignedToEmployee::class)
+            ->input(Input\GetEmployeeShiftsInput::class)
+            ->responder(Responder\ShiftResponder::class);
 
         $adr->get('get.shifts', "/shifts", Service\GetShiftsInTimePeriod::class)
             ->input(Input\GetShiftsInput::class)

@@ -31,6 +31,8 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
     public function setUp()
     {
         $this->cleanDatabase();
+        $this->thereIsAManager();
+        $this->thereIsAnEmployee();
     }
 
     /**
@@ -63,6 +65,14 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
     public function iProvideAnInvalidAccessToken()
     {
         $this->restApiBrowser->setRequestHeader("x-access-token", "invalid-token");
+    }
+
+    /**
+     * @Given I do not provide an access token
+     */
+    public function iDoNotProvideAnAccessToken()
+    {
+        $this->restApiBrowser->setRequestHeader("x-access-token", "");
     }
 
     /**

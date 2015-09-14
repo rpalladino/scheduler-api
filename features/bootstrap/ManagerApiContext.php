@@ -36,6 +36,8 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     public function setUp()
     {
         $this->cleanDatabase();
+        $this->thereIsAManager();
+        $this->thereIsAnEmployee();
     }
 
     /**
@@ -67,14 +69,6 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
         if ($this->restApiBrowser->getResponse()->getStatusCode() == 200) {
             $this->shifts =  $this->jsonInspector->readJsonNodeValue('shifts');
         }
-    }
-
-    /**
-     * @Then there should be :count shift(s) in the schedule
-     */
-    public function thereShouldBeShiftsInTheSchedule($count)
-    {
-        expect($this->shifts)->toHaveCount($count);
     }
 
     /**
