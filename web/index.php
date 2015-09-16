@@ -7,8 +7,12 @@ use Radar\Adr\Boot;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 
-$dotenv = new Dotenv(__DIR__ . "/../");
-$dotenv->load();
+$dotenvPath = __DIR__ . "/..";
+if (file_exists($dotenvPath . "/.env")) {
+    $dotenv = new Dotenv(__DIR__ . "/../");
+    $dotenv->load();
+}
+
 
 $boot = new Boot();
 $adr = $boot->adr([
