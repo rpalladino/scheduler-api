@@ -9,8 +9,10 @@ class GetShiftsInput extends Input
     public function __invoke(Request $request)
     {
         $user = $this->getCurrentUser($request);
-        $start = $request->getQueryParams()["start"];
-        $end = $request->getQueryParams()["end"];
+
+        $params = $request->getQueryParams();
+        $start = isset($params["start"]) ? $params["start"] : '';
+        $end = isset($params["end"]) ? $params["end"] : '';
 
         return [$user, $start, $end];
     }
