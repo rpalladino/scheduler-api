@@ -26,4 +26,15 @@ class ShiftResponder extends \Radar\Adr\Responder\Responder
             $this->jsonBody($this->resource->item($output));
         }
     }
+
+    protected function created()
+    {
+        $shift = $this->payload->getOutput();
+        $url = "/shifts/{$shift->getId()}";
+
+        $this->response = $this->response->withStatus(201)
+                                         ->withHeader("Location", $url);
+        $this->jsonBody($this->resource->item($shift));
+
+    }
 }

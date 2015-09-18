@@ -19,6 +19,10 @@ trait SchedulerApiCommon
     private $employee;
     private $manager;
 
+    private $shifts = [];
+
+    private $accessToken;
+
     public function initialize($restApiBrowser, $jsonInspector)
     {
         $this->restApiBrowser = $restApiBrowser;
@@ -90,7 +94,7 @@ trait SchedulerApiCommon
      */
     public function iAmAnEmployee()
     {
-        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_an_employee");
+        $this->accessToken = "i_am_an_employee";
     }
 
     /**
@@ -98,14 +102,14 @@ trait SchedulerApiCommon
      */
     public function iAmAManager()
     {
-        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_a_manager");
+        $this->accessToken = "i_am_a_manager";
     }
 
     /**
-     * @Then there should be :count shift(s) in the schedule
+     * @Then /^there (?:are|should be) (\d+) shifts? in the schedule$/i
      */
     public function thereShouldBeShiftsInTheSchedule($count)
     {
-        expect($this->shifts)->toHaveCount($count);
+        expect($this->shifts)->toHaveCount((int) $count);
     }
 }

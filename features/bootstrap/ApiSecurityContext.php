@@ -48,7 +48,7 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
      */
     public function iProvideAValidAccessToken()
     {
-        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_a_manager");
+        $this->accessToken = "i_am_a_manager";
     }
 
     /**
@@ -56,7 +56,7 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
      */
     public function iProvideAValidAccessTokenForAnUnknownUser()
     {
-        $this->restApiBrowser->setRequestHeader("x-access-token", "i_am_an_employee");
+        $this->accessToken = "i_am_an_employee";
     }
 
     /**
@@ -64,7 +64,7 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
      */
     public function iProvideAnInvalidAccessToken()
     {
-        $this->restApiBrowser->setRequestHeader("x-access-token", "invalid-token");
+        $this->accessToken = "invalid-token";
     }
 
     /**
@@ -72,7 +72,7 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
      */
     public function iDoNotProvideAnAccessToken()
     {
-        $this->restApiBrowser->setRequestHeader("x-access-token", "");
+        $this->accessToken = "";
     }
 
     /**
@@ -80,6 +80,7 @@ class ApiSecurityContext implements Context, SnippetAcceptingContext
      */
     public function iAccessTheApi()
     {
+       $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
        $this->restApiBrowser->sendRequest('GET', "/");
     }
 

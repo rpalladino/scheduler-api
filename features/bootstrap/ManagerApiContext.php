@@ -64,11 +64,30 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     {
         $url = sprintf("/shifts?start=%s&end=%s", $startString, $endString);
 
+        $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
         $this->restApiBrowser->sendRequest('GET', $url);
 
         if ($this->restApiBrowser->getResponse()->getStatusCode() == 200) {
             $this->shifts =  $this->jsonInspector->readJsonNodeValue('shifts');
         }
+    }
+
+    /**
+     * @When I create a new shift starting at :start and ending at :end
+     */
+    public function iCreateANewShiftStartingAtAndEndingAt($start, $end)
+    {
+        $aShift = json_encode([
+            "start" => $start->format(DATE_RFC2822),
+            "end" => $end->format(DATE_RFC2822),
+            "break" => 0.75
+        ]);
+
+        $this->restApiBrowser->setRequestHeader("content-type", "application/json");
+        $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
+        $this->restApiBrowser->sendRequest("POST", "/shifts", $aShift);
+
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(201);
     }
 
     /**
