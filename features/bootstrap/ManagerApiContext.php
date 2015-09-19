@@ -114,6 +114,15 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Then the shift should be assigned to :employeeName
+     */
+    public function theShiftShouldBeAssignedTo($employeeName)
+    {
+        $shift = $this->jsonInspector->readJsonNodeValue("shift");
+        expect($shift->employee->name)->toBe($employeeName);
+    }
+
+    /**
      * @Then I should not be allowed
      */
     public function iShouldNotBeAllowed()
