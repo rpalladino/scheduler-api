@@ -126,15 +126,15 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I view my shift
+     * @When I view the coworkers for my shift
      */
-    public function iViewMyShift()
+    public function iViewTheCoworkersForMyShift()
     {
         $me = $this->employee;
         $myShift = array_filter($this->shifts, function ($shift) use ($me) {
             return $shift->getEmployee() == $me;
         })[0];
-        $url = "/shifts/{$myShift->getId()}";
+        $url = "/shifts/{$myShift->getId()}?with_coworkers=true";
 
         $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
         $this->restApiBrowser->sendRequest("GET", $url);

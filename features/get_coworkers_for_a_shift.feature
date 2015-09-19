@@ -6,6 +6,6 @@ Feature: Get coworkers for a shift
   Scenario: Get single coworker with identical shift
     Given there is a shift assigned to "me" starting at "10:30 AM" and ending at "1:30 PM"
     And there is a shift assigned to "Shelly Levene" starting at "10:30 AM" and ending at "1:30 PM"
-    When I view my shift
+    When I view the coworkers for my shift
     Then I should have 1 coworker
     And I should see "Shelly Levene" as a coworker
