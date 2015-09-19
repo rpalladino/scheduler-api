@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use Scheduler\Infrastructure\Auth\TokenAuthenticator;
+use Zend\Diactoros\ServerRequest as Request;
 
 class InputSpec extends ObjectBehavior
 {
@@ -14,8 +15,8 @@ class InputSpec extends ObjectBehavior
         $this->beConstructedWith($authenticator);
     }
 
-    function it_is_initializable()
+    function it_is_invokable(Request $request)
     {
-        $this->shouldHaveType('Scheduler\Infrastructure\Radar\Input\Input');
+        $this($request)->shouldBeArray();
     }
 }

@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use Scheduler\Infrastructure\Auth\TokenAuthenticator;
+use Zend\Diactoros\ServerRequest as Request;
 
 class GetShiftsInputSpec extends ObjectBehavior
 {
@@ -14,8 +15,23 @@ class GetShiftsInputSpec extends ObjectBehavior
         $this->beConstructedWith($authenticator);
     }
 
-    function it_is_initializable()
+    function it_is_invokable(Request $request)
     {
-        $this->shouldHaveType('Scheduler\Infrastructure\Radar\Input\GetShiftsInput');
+        $this($request)->shouldBeArray();
+    }
+
+    function it_extracts_input_from_request()
+    {
+        $request = (new Request())
+                        ->withHeader("x-access-token", "i_am_a_manager")
+                        ->withQueryParams([
+                            "start" =>"2015-09-01T13:30:00",
+                            "end" => "2015-09-01T19:30:00"
+                        ]);
+
+        $input = $this($request);
+
+        $input->shouldBeArray();
+        $input->shouldHaveCount(3);
     }
 }

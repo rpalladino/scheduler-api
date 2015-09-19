@@ -16,11 +16,6 @@ class UpdateShiftInputSpec extends ObjectBehavior
         $this->beConstructedWith($authenticator);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType('Scheduler\Infrastructure\Radar\Input\Input');
-    }
-
     function it_is_invokable(Request $request)
     {
         $this($request)->shouldBeArray();
