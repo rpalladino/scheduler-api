@@ -114,12 +114,47 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I update the shift to start at :start and end at :end
+     */
+    public function iUpdateTheShiftToStartAtAndEndAt($start, $end)
+    {
+        expect($this->shifts)->toHaveCount(1);
+
+        $theShift = array_shift($this->shifts);
+        $body = json_encode([
+            "manager_id" => $theShift->getManager()->getId(),
+            "employee_id" => $theShift->getEmployee()->getId(),
+            "start_time" => $start->format(DATE_RFC2822),
+            "end_time" => $end->format(DATE_RFC2822),
+            "break" => 0.75
+        ]);
+
+        $url = "/shifts/{$theShift->getId()}";
+
+        $this->restApiBrowser->setRequestHeader("content-type", "application/json");
+        $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
+        $this->restApiBrowser->sendRequest("PUT", $url, $body);
+
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(200);
+    }
+
+    /**
      * @Then the shift should be assigned to :employeeName
      */
     public function theShiftShouldBeAssignedTo($employeeName)
     {
         $shift = $this->jsonInspector->readJsonNodeValue("shift");
         expect($shift->employee->name)->toBe($employeeName);
+    }
+
+    /**
+     * @Then the shift should start at :start and end at :end
+     */
+    public function theShiftShouldStartAtAndEndAt($start, $end)
+    {
+        $shift = $this->jsonInspector->readJsonNodeValue("shift");
+        expect($shift->start_time)->toBe($start->format(DATE_RFC2822));
+        expect($shift->end_time)->toBe($end->format(DATE_RFC2822));
     }
 
     /**
