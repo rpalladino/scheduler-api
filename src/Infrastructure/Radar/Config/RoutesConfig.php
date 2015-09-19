@@ -19,6 +19,9 @@ class RoutesConfig extends ContainerConfig
         $di->set('default:input', $di->lazyNew(Input\RootInput::class));
         $di->params[Input\Input::class]["authenticator"] = $di->lazyGet("auth.authenticator");
 
+        $di->params[Service\GetEmployee::class]["userMapper"] = $di->lazyGet("user.mapper");
+        $di->params[Responder\UserResponder::class]["resource"] = $di->lazyGet("user.resource");
+
         $di->set('get/employee/shifts:input', $di->lazyNew(Input\GetEmployeeShiftsInput::class));
         $di->params[Input\GetEmployeeShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
 
@@ -69,6 +72,10 @@ class RoutesConfig extends ContainerConfig
 
             return $payload;
         });
+
+        $adr->get('get.employee', '/employees/{id}', Service\GetEmployee::class)
+            ->input(Input\GetEmployeeInput::class)
+            ->responder(Responder\UserResponder::class);
 
         $adr->get('get.employee.shifts', "/employee/{id}/shifts", Service\GetShiftsAssignedToEmployee::class)
             ->input(Input\GetEmployeeShiftsInput::class)

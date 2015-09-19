@@ -16,4 +16,9 @@ class UserResource
             "phone" => $user->getPhone()
         ];
     }
+
+    public function item(User $user)
+    {
+        return ["user" => $this->transform($user)];
+    }
 }

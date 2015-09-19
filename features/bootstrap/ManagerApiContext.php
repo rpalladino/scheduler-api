@@ -149,6 +149,19 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I view the employee details
+     */
+    public function iViewTheEmployeeDetails()
+    {
+        $url = "/employees/{$this->employee->getId()}";
+
+        $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
+        $this->restApiBrowser->sendRequest("GET", $url);
+
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(200);
+    }
+
+    /**
      * @Then the shift should be assigned to :employeeName
      */
     public function theShiftShouldBeAssignedTo($employeeName)
