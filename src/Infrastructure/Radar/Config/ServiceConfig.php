@@ -9,6 +9,8 @@ use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\UserMapper;
 use Scheduler\Infrastructure\Auth\TokenAuthenticator;
 use Scheduler\Infrastructure\DBAL;
+use Scheduler\REST\Resource\ShiftResource;
+use Scheduler\REST\Resource\UserResource;
 
 class ServiceConfig extends ContainerConfig
 {
@@ -43,5 +45,10 @@ class ServiceConfig extends ContainerConfig
             "i_am_an_employee" => 2,
             "i_am_shelly" => 3
         ];
+
+        $di->set("shift.resource", $di->lazyNew(ShiftResource::class));
+        $di->params[ShiftResource::class]["userResource"] = $di->lazyGet("user.resource");
+
+        $di->set("user.resource", $di->lazyNew(UserResource::class));
     }
 }

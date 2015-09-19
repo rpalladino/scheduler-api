@@ -9,45 +9,24 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Scheduler\Application\Service;
 use Scheduler\Infrastructure\Radar\Input;
 use Scheduler\Infrastructure\Radar\Responder;
-use Scheduler\REST\Resource\ShiftResource;
-use Scheduler\REST\Resource\UserResource;
 
 class RoutesConfig extends ContainerConfig
 {
     public function define(Container $di)
     {
-        $di->set('default:input', $di->lazyNew(Input\RootInput::class));
         $di->params[Input\Input::class]["authenticator"] = $di->lazyGet("auth.authenticator");
-
-        $di->params[Service\GetEmployee::class]["userMapper"] = $di->lazyGet("user.mapper");
-        $di->params[Responder\UserResponder::class]["resource"] = $di->lazyGet("user.resource");
-
-        $di->set('get/employee/shifts:input', $di->lazyNew(Input\GetEmployeeShiftsInput::class));
         $di->params[Input\GetEmployeeShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
-
-        $di->set('get/employee/shifts:domain', $di->lazyNew(Service\GetShiftsAssignedToEmployee::class));
-        $di->params[Service\GetShiftsAssignedToEmployee::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
-
-        $di->set('get/shifts:input', $di->lazyNew(Input\GetShiftsInput::class));
         $di->params[Input\GetShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
 
-        $di->set('get/shifts:domain', $di->lazyNew(Service\GetShiftsInTimePeriod::class));
-        $di->params[Service\GetShiftsInTimePeriod::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
-
-        $di->set("get/shifts:responder", $di->lazyNew(Responder\ShiftResponder::class));
-        $di->params[Responder\ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
-
-        $di->set("post/shifts:domain", $di->lazyNew(Service\CreateShift::class));
         $di->params[Service\CreateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
-
-        $di->set("put/shifts:domain", $di->lazyNew(Service\UpdateShift::class));
+        $di->params[Service\GetEmployee::class]["userMapper"] = $di->lazyGet("user.mapper");
+        $di->params[Service\GetShiftsAssignedToEmployee::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
+        $di->params[Service\GetShiftsInTimePeriod::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\UpdateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\UpdateShift::class]["userMapper"] = $di->lazyGet("user.mapper");
 
-        $di->set("shift.resource", $di->lazyNew(ShiftResource::class));
-        $di->params[ShiftResource::class]["userResource"] = $di->lazyGet("user.resource");
-
-        $di->set("user.resource", $di->lazyNew(UserResource::class));
+        $di->params[Responder\ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
+        $di->params[Responder\UserResponder::class]["resource"] = $di->lazyGet("user.resource");
     }
 
     public function modify(Container $di)
