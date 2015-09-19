@@ -10,9 +10,13 @@ class UpdateShiftInput extends Input
     {
         $currentUser = $this->getCurrentUser($request);
         $shiftId = (int) $request->getAttribute('id');
-        $body = $request->getParsedBody();
-        $employeeId = isset($body->employee_id) ? (int) $body->employee_id : 0;
 
-        return [$currentUser, $shiftId, $employeeId];
+        $body = $request->getParsedBody();
+        $employeeId = isset($body->employee_id) ? (int) $body->employee_id : null;
+        $start = isset($body->start_time) ? $body->start_time : '';
+        $end = isset($body->end_time) ? $body->end_time : '';
+        $break = isset($body->break) ? $body->break : '';
+
+        return [$currentUser, $shiftId, $employeeId, $start, $end, $break];
     }
 }

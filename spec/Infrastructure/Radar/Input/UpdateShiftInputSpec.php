@@ -5,6 +5,7 @@ namespace spec\Scheduler\Infrastructure\Radar\Input;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+use DateTime;
 use Zend\Diactoros\ServerRequest as Request;
 use Scheduler\Infrastructure\Auth\TokenAuthenticator;
 
@@ -31,12 +32,16 @@ class UpdateShiftInputSpec extends ObjectBehavior
                         ->withHeader("x-access-token", "i_am_a_manager")
                         ->withAttribute("id", 1)
                         ->withParsedBody([
-                            "employee_id" => 3
+                            "manager_id" => 1,
+                            "employee_id" => 3,
+                            "start_time" => (new DateTime("07:30 AM"))->format(DATE_RFC2822),
+                            "end_time" => (new DateTime("11:30 AM"))->format(DATE_RFC2822),
+                            "break" => 0.5
                         ]);
 
         $input = $this($request);
 
         $input->shouldBeArray();
-        $input->shouldHaveCount(3);
+        $input->shouldHaveCount(6);
     }
 }

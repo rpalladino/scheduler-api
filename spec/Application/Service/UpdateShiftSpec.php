@@ -43,18 +43,42 @@ class UpdateShiftSpec extends ObjectBehavior
         $employee = new User($employeeId, "Shelly Levene", "employee", "oldguy@aol.com");
         $userMapper->find($employeeId)->willReturn($employee);
 
-        $payload = $this($currentUser, $shiftId, $employeeId);
+        $payload = $this($currentUser, $shiftId, $employeeId, "07:30 AM", "11:30 AM", 0.5);
 
         $payload->getStatus()->shouldBe(Payload::UPDATED);
         $payload->getOutput()->shouldHaveType(Shift::class);
         $payload->getOutput()->getEmployee()->getId()->shouldBe($employeeId);
+        $payload->getOutput()->getStartTime()->shouldBeLike(new DateTime("07:30 AM"));
+        $payload->getOutput()->getEndTime()->shouldBeLike(new DateTime("11:30 AM"));
+        $payload->getOutput()->getBreak()->shouldBe(0.5);
+    }
+
+    function it_does_not_assign_employee_if_employee_id_is_null($shiftMapper, $userMapper)
+    {
+        $currentUser = new User(1, "John Williamson", "manager", "jwilliamson@gmail.com");
+        $currentUser->authenticate();
+
+        $shiftId = 1;
+        $employeeId = null;
+
+        $employee = new NullUser();
+        $userMapper->find($employeeId)->willReturn($employee);
+
+        $start = new DateTime("5:30 AM");
+        $end = new DateTime("9:30 AM");
+        $shift = new Shift($shiftId, $currentUser, $employee, 0.5, $start, $end);
+        $shiftMapper->find($shiftId)->willReturn($shift);
+        $shiftMapper->update(Argument::type(Shift::class))->shouldBeCalled();
+
+        $payload = $this($currentUser, $shiftId, $employeeId, "07:30 AM", "11:30 AM", 0.75);
+        $payload->getStatus()->shouldBe(Payload::UPDATED);
     }
 
     function it_does_not_allow_unauthenticated_users_to_update_shifts()
     {
         $currentUser = new User(1, "John Williamson", "manager", "jwilliamson@gmail.com");
 
-        $payload = $this($currentUser, 1, 3);
+        $payload = $this($currentUser, 1, 3, "07:30 AM", "11:30 AM", 0.5);
 
         $payload->getStatus()->shouldBe(Payload::NOT_AUTHENTICATED);
     }
@@ -64,7 +88,7 @@ class UpdateShiftSpec extends ObjectBehavior
         $currentUser = new User(2, "Richard Roma", "employee", "ricky@roma.com");
         $currentUser->authenticate();
 
-        $payload = $this($currentUser, 1, 2);
+        $payload = $this($currentUser, 1, 2, "07:30 AM", "11:30 AM", 0.5);
 
         $payload->getStatus()->shouldBe(Payload::NOT_AUTHORIZED);
     }
@@ -76,7 +100,7 @@ class UpdateShiftSpec extends ObjectBehavior
 
         $shiftMapper->find(1)->willReturn(null);
 
-        $payload = $this($currentUser, 1, 2);
+        $payload = $this($currentUser, 1, 2, "07:30 AM", "11:30 AM", 0.5);
 
         $payload->getStatus()->shouldBe(Payload::NOT_FOUND);
         $payload->getMessages()->shouldBe(UpdateShift::SHIFT_NOT_FOUND_MESSAGE);
@@ -94,9 +118,31 @@ class UpdateShiftSpec extends ObjectBehavior
 
         $userMapper->find(2)->willReturn(new NullUser());
 
-        $payload = $this($currentUser, 1, 2);
+        $payload = $this($currentUser, 1, 2, "07:30 AM", "11:30 AM", 0.5);
 
         $payload->getStatus()->shouldBe(Payload::NOT_FOUND);
         $payload->getMessages()->shouldBe(UpdateShift::USER_NOT_FOUND_MESSAGE);
+    }
+
+    function it_returns_not_valid_when_start_date_is_invalid()
+    {
+        $currentUser = new User(1, "John Williamson", "manager", "jwilliamson@gmail.com");
+        $currentUser->authenticate();
+
+        $payload = $this($currentUser, 1, 3, "not a datetime", "11:30 AM", 0.5);
+
+        $payload->getStatus()->shouldBe(Payload::NOT_VALID);
+        $payload->getMessages()->shouldHaveKeyWithValue("start", UpdateShift::INVALID_DATE_MESSAGE);
+    }
+
+    function it_returns_not_valid_when_end_date_is_invalid()
+    {
+        $currentUser = new User(1, "John Williamson", "manager", "jwilliamson@gmail.com");
+        $currentUser->authenticate();
+
+        $payload = $this($currentUser, 1, 3, "07:30 AM", "not a datetime", 0.5);
+
+        $payload->getStatus()->shouldBe(Payload::NOT_VALID);
+        $payload->getMessages()->shouldHaveKeyWithValue("end", UpdateShift::INVALID_DATE_MESSAGE);
     }
 }
