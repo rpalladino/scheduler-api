@@ -20,12 +20,15 @@ class RoutesConfig extends ContainerConfig
 
         $di->params[Service\CreateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetEmployee::class]["userMapper"] = $di->lazyGet("user.mapper");
+        $di->params[Service\GetShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetShiftsAssignedToEmployee::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetShiftsInTimePeriod::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\UpdateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\UpdateShift::class]["userMapper"] = $di->lazyGet("user.mapper");
 
         $di->params[Responder\ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
+        $di->params[Responder\ShiftItemResponder::class]["shiftResource"] = $di->lazyGet("shift.resource");
+        $di->params[Responder\ShiftItemResponder::class]["userResource"] = $di->lazyGet("user.resource");
         $di->params[Responder\UserResponder::class]["resource"] = $di->lazyGet("user.resource");
     }
 
@@ -67,6 +70,10 @@ class RoutesConfig extends ContainerConfig
         $adr->post('post.shifts', "/shifts", Service\CreateShift::class)
             ->input(Input\CreateShiftInput::class)
             ->responder(Responder\ShiftResponder::class);
+
+        $adr->get('get.shift', "/shifts/{id}", Service\GetShift::class)
+            ->input(Input\GetShiftInput::class)
+            ->responder(Responder\ShiftItemResponder::class);
 
         $adr->put('put.shifts', "/shifts/{id}", Service\UpdateShift::class)
             ->input(Input\UpdateShiftInput::class)
