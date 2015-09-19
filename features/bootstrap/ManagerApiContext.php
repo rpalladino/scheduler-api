@@ -59,6 +59,16 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given there is an employee named :name with email :email and phone :phone
+     */
+    public function thereIsAnEmployeeNamedWithEmailAndPhone($name, $email, $phone)
+    {
+        $anEmployee = new User(null, $name, "employee", $email, $phone);
+        $this->userMapper->insert($anEmployee);
+        $this->employee = $anEmployee;
+    }
+
+    /**
      * @When I list the shifts between :startString and :endString
      */
     public function iListTheShiftsBetweenAnd($startString, $endString)
