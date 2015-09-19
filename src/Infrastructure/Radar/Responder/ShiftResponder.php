@@ -35,6 +35,12 @@ class ShiftResponder extends \Radar\Adr\Responder\Responder
         $this->response = $this->response->withStatus(201)
                                          ->withHeader("Location", $url);
         $this->jsonBody($this->resource->item($shift));
+    }
 
+    protected function updated()
+    {
+        $this->response = $this->response->withStatus(200);
+        $shift = $this->payload->getOutput();
+        $this->jsonBody($this->resource->item($shift));
     }
 }

@@ -37,6 +37,10 @@ class RoutesConfig extends ContainerConfig
         $di->set("post/shifts:domain", $di->lazyNew(Service\CreateShift::class));
         $di->params[Service\CreateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
 
+        $di->set("put/shifts:domain", $di->lazyNew(Service\UpdateShift::class));
+        $di->params[Service\UpdateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
+        $di->params[Service\UpdateShift::class]["userMapper"] = $di->lazyGet("user.mapper");
+
         $di->set("shift.resource", $di->lazyNew(ShiftResource::class));
         $di->params[ShiftResource::class]["userResource"] = $di->lazyGet("user.resource");
 
@@ -76,6 +80,10 @@ class RoutesConfig extends ContainerConfig
 
         $adr->post('post.shifts', "/shifts", Service\CreateShift::class)
             ->input(Input\CreateShiftInput::class)
+            ->responder(Responder\ShiftResponder::class);
+
+        $adr->put('put.shifts', "/shifts/{id}", Service\UpdateShift::class)
+            ->input(Input\UpdateShiftInput::class)
             ->responder(Responder\ShiftResponder::class);
     }
 }

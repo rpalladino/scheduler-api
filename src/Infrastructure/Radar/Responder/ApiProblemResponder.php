@@ -6,6 +6,16 @@ use Crell\ApiProblem\ApiProblem;
 
 trait ApiProblemResponder
 {
+    protected function notFound()
+    {
+        $this->response = $this->response->withStatus(404);
+
+        $problem = $this->createProblem();
+        $problem->setDetail($this->payload->getMessages());
+
+        $this->problemBody($problem);
+    }
+
     protected function notValid()
     {
         $this->response = $this->response->withStatus(422);
