@@ -90,6 +90,15 @@ trait SchedulerApiCommon
     }
 
     /**
+     * @Given there is an employee named :name
+     */
+    public function thereIsAnEmployeeNamed($name)
+    {
+        $this->employee = User::employeeNamedWithEmail($name, "employee@example.com");
+        $this->userMapper->insert($this->employee);
+    }
+
+    /**
      * @Given I am an employee
      */
     public function iAmAnEmployee()

@@ -49,12 +49,13 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given there is a shift starting at :start and ending at :end
+     * @Given there is a(n) (open) shift starting at :start and ending at :end
      */
     public function thereIsAShiftStartingAtAndEndingAt($start, $end)
     {
         $aShift = Shift::withManagerAndTimes($this->manager, $start, $end);
         $this->shiftMapper->insert($aShift);
+        $this->shifts[] = $aShift;
     }
 
     /**
@@ -88,6 +89,28 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
         $this->restApiBrowser->sendRequest("POST", "/shifts", $aShift);
 
         expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(201);
+    }
+
+    /**
+     * @When I assign :employeeName to the shift
+     */
+    public function iAssignToTheShift($employeeName)
+    {
+        expect($this->employee->getName())->toBe($employeeName);
+        expect($this->shifts)->toHaveCount(1);
+
+        $theShift = array_shift($this->shifts);
+        $body = json_encode([
+            "employee_id" => $this->employee->getId()
+        ]);
+
+        $url = "/shifts/{$theShift->getId()}";
+
+        $this->restApiBrowser->setRequestHeader("content-type", "application/json");
+        $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
+        $this->restApiBrowser->sendRequest("PUT", $url, $body);
+
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(200);
     }
 
     /**
