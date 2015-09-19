@@ -174,4 +174,26 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
         });
         expect(count($shifts))->toBe($count);
     }
+
+    /**
+     * @Then I should have :count coworker
+     */
+    public function iShouldHaveCoworker($count)
+    {
+        $shift = $this->jsonInspector->readJsonNodeValue('shift');
+        expect($shift->coworkers)->toHaveCount($count);
+
+    }
+
+    /**
+     * @Then I should see :name as a coworker
+     */
+    public function iShouldSeeAsACoworker($name)
+    {
+        $shift = $this->jsonInspector->readJsonNodeValue('shift');
+        $coworker = array_filter($shift->coworkers, function ($coworker) use ($name) {
+            return $coworker->name == $name;
+        });
+        expect($coworker)->toHaveCount(1);
+    }
 }
