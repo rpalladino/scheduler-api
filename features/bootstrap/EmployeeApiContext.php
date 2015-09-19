@@ -98,10 +98,15 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
      */
     public function thereIsAShiftAssignedToStartingAtAndEndingAt($employee, $start, $end)
     {
+        if ($employee->getId() === null) {
+            $this->userMapper->insert($employee);
+        }
+
         $manager = new User(1, "John Williamson", "manager", "jwilliamson@gmail.com");
         $aShift = Shift::withManagerAndTimes($manager, $start, $end);
         $aShift = $aShift->assignTo($employee);
         $this->shiftMapper->insert($aShift);
+        $this->shifts[] = $aShift;
     }
 
     /**
@@ -118,6 +123,23 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
         } else {
             throw new Exception("Could not list shifts assigned to employee");
         }
+    }
+
+    /**
+     * @When I view my shift
+     */
+    public function iViewMyShift()
+    {
+        $me = $this->employee;
+        $myShift = array_filter($this->shifts, function ($shift) use ($me) {
+            return $shift->getEmployee() == $me;
+        })[0];
+        $url = "/shifts/{$myShift->getId()}";
+
+        $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
+        $this->restApiBrowser->sendRequest("GET", $url);
+
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(200);
     }
 
     /**
