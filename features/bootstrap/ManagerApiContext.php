@@ -181,6 +181,33 @@ class ManagerApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Then I should see the employee name is :name
+     */
+    public function iShouldSeeTheEmployeeNameIs($name)
+    {
+        $employee = $this->jsonInspector->readJsonNodeValue("user");
+        expect($employee->name)->toBe($name);
+    }
+
+    /**
+     * @Then I should see the employee email is :email
+     */
+    public function iShouldSeeTheEmployeeEmailIs($email)
+    {
+        $employee = $this->jsonInspector->readJsonNodeValue("user");
+        expect($employee->email)->toBe($email);
+    }
+
+    /**
+     * @Then I should see the employee phone is :phone
+     */
+    public function iShouldSeeTheEmployeePhoneIs($phone)
+    {
+        $employee = $this->jsonInspector->readJsonNodeValue("user");
+        expect($employee->phone)->toBe($phone);
+    }
+
+    /**
      * @Then I should not be allowed
      */
     public function iShouldNotBeAllowed()
