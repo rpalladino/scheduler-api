@@ -176,13 +176,12 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should have :count coworker
+     * @Then I should have :count coworker(s)
      */
     public function iShouldHaveCoworker($count)
     {
         $shift = $this->jsonInspector->readJsonNodeValue('shift');
         expect($shift->coworkers)->toHaveCount($count);
-
     }
 
     /**
