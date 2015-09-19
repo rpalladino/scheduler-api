@@ -56,7 +56,7 @@ class RoutesConfig extends ContainerConfig
             ->input(Input\GetEmployeeInput::class)
             ->responder(Responder\UserResponder::class);
 
-        $adr->get('get.employee.shifts', "/employee/{id}/shifts", Service\GetShiftsAssignedToEmployee::class)
+        $adr->get('get.employee.shifts', "/employees/{id}/shifts", Service\GetShiftsAssignedToEmployee::class)
             ->input(Input\GetEmployeeInput::class)
             ->responder(Responder\ShiftResponder::class);
 

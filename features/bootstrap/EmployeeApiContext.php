@@ -109,7 +109,7 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
      */
     public function iListTheShiftsAssignedToMe()
     {
-        $url = sprintf("/employee/%s/shifts", $this->employee->getId());
+        $url = sprintf("/employees/%s/shifts", $this->employee->getId());
         $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
         $this->restApiBrowser->sendRequest('GET', $url);
 
