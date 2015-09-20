@@ -13,7 +13,7 @@ class GetShiftInput extends Input
 
         $params = $request->getQueryParams();
         $withCoworkers = isset($params["with_coworkers"])
-            ? (boolean) $params["with_coworkers"]
+            ? $params["with_coworkers"] == "true"
             : false;
 
         return [$currentUser, $shiftId, $withCoworkers];
