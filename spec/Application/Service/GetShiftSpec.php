@@ -61,4 +61,14 @@ class GetShiftSpec extends ObjectBehavior
 
         $payload->getStatus()->shouldBe(Payload::NOT_AUTHENTICATED);
     }
+
+    function it_responds_with_not_found_when_shift_not_found()
+    {
+        $currentUser = new User(1, "John Williamson", "manager", "john@abc.com");
+        $currentUser->authenticate();
+
+        $payload = $this($currentUser, 54321, true);
+
+        $payload->getStatus()->shouldBe(Payload::NOT_FOUND);
+    }
 }

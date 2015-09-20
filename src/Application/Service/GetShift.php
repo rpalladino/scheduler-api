@@ -25,6 +25,11 @@ class GetShift
         $output = [];
 
         $shift = $this->shiftMapper->find($shiftId);
+
+        if ($shift === null) {
+            return $this->payload->setStatus(Payload::NOT_FOUND);
+        }
+
         $output["shift"] = $shift;
 
         if ($withCoworkers) {
