@@ -63,6 +63,9 @@ class RoutesConfig extends ContainerConfig
             ->input(Input\GetEmployeeInput::class)
             ->responder(Responder\ShiftResponder::class);
 
+        $adr->get('get.employee.hours.weekly', "/employees/{id}/hours/weekly", Service\GetHoursWorkedInWeek::class)
+            ->input(Input\GetEmployeeSummmary::class);
+
         $adr->get('get.shifts', "/shifts", Service\GetShiftsInTimePeriod::class)
             ->input(Input\GetShiftsInput::class)
             ->responder(Responder\ShiftResponder::class);

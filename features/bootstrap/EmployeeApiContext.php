@@ -143,6 +143,19 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I view the summary of hours worked for week of :date
+     */
+    public function iViewTheSummaryOfHoursWorkedForWeekOf($date)
+    {
+        $url = "/employees/{$this->employee->getId()}/hours/weekly?date={$date->format(DATE_RFC3339)}";
+
+        $this->restApiBrowser->setRequestHeader("x-access-token", $this->accessToken);
+        $this->restApiBrowser->sendRequest("GET", $url);
+
+        expect($this->restApiBrowser->getResponse()->getStatusCode())->toBe(200);
+    }
+
+    /**
      * @Then I should see :count shift(s) where the manager is named :name
      */
     public function iShouldSeeShiftWhereTheManagerIsNamed($count, $name)

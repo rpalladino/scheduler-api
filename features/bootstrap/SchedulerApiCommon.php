@@ -48,6 +48,7 @@ trait SchedulerApiCommon
     /**
      * @Transform :start
      * @Transform :end
+     * @Transform :date
      */
     public function transformStringToDate($string)
     {
