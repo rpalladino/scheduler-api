@@ -34,7 +34,7 @@ class GetShiftsAssignedToEmployee
             return $this->payload->setStatus(Payload::NOT_AUTHORIZED);
         }
 
-        $shifts = $this->shiftMapper->findShiftsAssignedTo($currentUser);
+        $shifts = $this->shiftMapper->findShiftsByEmployeeId($currentUser->getId());
 
         return $this->payload->setStatus(Payload::SUCCESS)
                              ->setOutput($shifts);

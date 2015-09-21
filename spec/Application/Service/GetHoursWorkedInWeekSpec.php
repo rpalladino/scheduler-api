@@ -37,7 +37,7 @@ class GetHoursWorkedInWeekSpec extends ObjectBehavior
         $manager = new User(1235, "John Williamson", "manager", "jwilliamson@gmail.com");
         $shiftStart = new DateTimeImmutable("2015-10-05 11:00 AM");
         $shiftEnd = new DateTimeImmutable("2015-10-05 4:00 PM");
-        $shiftMapper->findShiftsInTimePeriod($weekStart, $weekEnd)->willReturn([
+        $shiftMapper->findShiftsInTimePeriodByEmployeeId($weekStart, $weekEnd, 1234)->willReturn([
             new Shift(4567, $manager, $currentUser, 0.5, $shiftStart, $shiftEnd),
             new Shift(4568, $manager, $currentUser, 0.5, $shiftStart->modify("+2 days"), $shiftEnd->modify("+2 days")),
             new Shift(4569, $manager, $currentUser, 0.5, $shiftStart->modify("+4 days"), $shiftEnd->modify("+4 days"))

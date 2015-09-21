@@ -22,7 +22,7 @@ class HoursWorkedCalculator
     {
         list($start, $end) = $this->getWeekStartAndEndDates($weekOf);
 
-        $shifts = $this->shiftMapper->findShiftsInTimePeriod($start, $end);
+        $shifts = $this->shiftMapper->findShiftsInTimePeriodByEmployeeId($start, $end, $employee->getId());
         $hours = array_reduce($shifts, function ($total, $shift) {
             return $total + $shift->getHours();
         });

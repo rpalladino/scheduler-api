@@ -32,7 +32,7 @@ class DbalShiftMapper extends DbalMapper implements ShiftMapper
         return sprintf(self::findWithAssociations(), "s.id = ?");
     }
 
-    protected static function findAssignedToStatement()
+    protected static function findByEmployeeIdStatement()
     {
         return sprintf(self::findWithAssociations(), "s.employee_id = ?");
     }
@@ -44,6 +44,11 @@ class DbalShiftMapper extends DbalMapper implements ShiftMapper
             "(start_time BETWEEN :start AND :end
                 OR end_time BETWEEN :start and :end)"
         );
+    }
+
+    protected static function findInTimePeriodByEmployeeIdStatement()
+    {
+        return self::findInTimePeriodStatement() . " and s.employee_id = :employee_id";
     }
 
     protected static function findOpenShiftsStatement()
@@ -111,10 +116,10 @@ class DbalShiftMapper extends DbalMapper implements ShiftMapper
         return $this->loadAll($statement);
     }
 
-    public function findShiftsAssignedTo(User $employee)
+    public function findShiftsByEmployeeId($employee_id)
     {
-        $statement = $this->db->prepare(self::findAssignedToStatement());
-        $statement->bindValue(1, $employee->getId(), \PDO::PARAM_INT);
+        $statement = $this->db->prepare(self::findByEmployeeIdStatement());
+        $statement->bindValue(1, $employee_id, \PDO::PARAM_INT);
         $statement->execute();
 
         return $this->loadAll($statement);
@@ -125,6 +130,17 @@ class DbalShiftMapper extends DbalMapper implements ShiftMapper
         $statement = $this->db->prepare(self::findInTimePeriodStatement());
         $statement->bindValue(":start", $start, Type::DATETIME);
         $statement->bindValue(":end", $end, Type::DATETIME);
+        $statement->execute();
+
+        return $this->loadAll($statement);
+    }
+
+    public function findShiftsInTimePeriodByEmployeeId(DateTimeInterface $start, DateTimeInterface $end, $employeeId)
+    {
+        $statement = $this->db->prepare(self::findInTimePeriodByEmployeeIdStatement());
+        $statement->bindValue(":start", $start, Type::DATETIME);
+        $statement->bindValue(":end", $end, Type::DATETIME);
+        $statement->bindValue(":employee_id", $employeeId, \PDO::PARAM_INT);
         $statement->execute();
 
         return $this->loadAll($statement);

@@ -9,8 +9,9 @@ interface ShiftMapper
 {
     public function find($id);
     public function findOpenShifts();
-    public function findShiftsAssignedTo(User $employee);
+    public function findShiftsByEmployeeId($employee_id);
     public function findShiftsInTimePeriod(DateTimeInterface $start, DateTimeInterface $end);
+    public function findShiftsInTimePeriodByEmployeeId(DateTimeInterface $start, DateTimeInterface $end, $employeeId);
     public function insert(Shift $shift);
     public function update(Shift $shift);
 }

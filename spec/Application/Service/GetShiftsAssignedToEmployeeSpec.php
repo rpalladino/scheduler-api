@@ -37,7 +37,7 @@ class GetShiftsAssignedToEmployeeSpec extends ObjectBehavior
 
         $start = new DateTime('2015-09-06');
         $end = new DateTime('2015-09-07');
-        $shiftMapper->findShiftsAssignedTo($employee)->willReturn($shifts);
+        $shiftMapper->findShiftsByEmployeeId($employee->getId())->willReturn($shifts);
 
         $payload = $this($employee, 2);
 

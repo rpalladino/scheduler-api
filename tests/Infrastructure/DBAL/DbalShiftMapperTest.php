@@ -41,21 +41,19 @@ class DbalShiftMapperTest extends DbalTestCase
 
     /**
      * @test
-     * @dataProvider shiftsAssignedToEmployee
+     * @dataProvider shiftsByEmployeeId
      */
-    function itCanFindShiftsAssignedToEmployee($employee_id, $count)
+    function itCanFindShiftsByEmployeeId($employee_id, $count)
     {
-        $employee = $this->userMapper->find($employee_id);
+        $shifts = $this->shiftMapper->findShiftsByEmployeeId($employee_id);
 
-        $assignedShifts = $this->shiftMapper->findShiftsAssignedTo($employee);
-
-        $this->assertEquals($count, count($assignedShifts));
-        foreach ($assignedShifts as $shift) {
-            $this->assertEquals($employee, $shift->getEmployee());
+        $this->assertEquals($count, count($shifts));
+        foreach ($shifts as $shift) {
+            $this->assertEquals($employee_id, $shift->getEmployee()->getId());
         }
     }
 
-    public function shiftsAssignedToEmployee()
+    public function shiftsByEmployeeId()
     {
         return [
             [
@@ -101,6 +99,64 @@ class DbalShiftMapperTest extends DbalTestCase
                 "start" => new DateTime("2015-09-01"),
                 "end" => new DateTime("2015-09-15"),
                 "count" => 7
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider shiftsInTimePeriodForEmployee
+     */
+    public function itCanFindShiftsInTimePeriodByEmployeeId($start, $end, $employeeId, $count)
+    {
+        $shifts = $this->shiftMapper->findShiftsInTimePeriodByEmployeeId($start, $end, $employeeId);
+        $this->assertEquals($count, count($shifts));
+    }
+
+    public function shiftsInTimePeriodForEmployee()
+    {
+        return [
+            [
+                "start" => new DateTime("2015-09-07 5:30 PM"),
+                "end" => new DateTime("2015-09-07 11:30 PM"),
+                "employee_id" => 2,
+                "count" => 1
+            ],
+            [
+                "start" => new DateTime("2015-09-07 5:30 PM"),
+                "end" => new DateTime("2015-09-07 11:30 PM"),
+                "employee_id" => 3,
+                "count" => 1
+            ],
+            [
+                "start" => new DateTime("2015-09-07 5:30 PM"),
+                "end" => new DateTime("2015-09-08 11:30 PM"),
+                "employee_id" => 2,
+                "count" => 2
+            ],
+            [
+                "start" => new DateTime("2015-09-07 5:30 PM"),
+                "end" => new DateTime("2015-09-08 11:30 PM"),
+                "employee_id" => 3,
+                "count" => 2
+            ],
+            [
+                "start" => new DateTime("2015-09-09"),
+                "end" => new DateTime("2015-09-10"),
+                "employee_id" => 2,
+                "count" => 0
+            ],
+            [
+                "start" => new DateTime("2015-09-09"),
+                "end" => new DateTime("2015-09-10"),
+                "employee_id" => 3,
+                "count" => 1
+            ],
+            [
+                "start" => new DateTime("2015-09-01"),
+                "end" => new DateTime("2015-09-15"),
+                "employee_id" => null,
+                "count" => 0
             ]
         ];
     }
