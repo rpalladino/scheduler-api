@@ -208,4 +208,22 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
         });
         expect($coworker)->toHaveCount(1);
     }
+
+    /**
+     * @Then the summary should show :hoursCount hours worked
+     */
+    public function theSummaryShouldShowHoursWorked($hoursCount)
+    {
+        $summary = $this->jsonInspector->readJsonNodeValue('summary');
+        expect((float) $summary->hours)->toBe((float) $hoursCount);
+    }
+
+    /**
+     * @Then the summary should have a(n) :type date of :date
+     */
+    public function theSummaryShouldHaveADateOf($type, $date)
+    {
+        $summary = $this->jsonInspector->readJsonNodeValue('summary');
+        expect($summary->$type)->toBe($date->format(DATE_RFC2822));
+    }
 }
