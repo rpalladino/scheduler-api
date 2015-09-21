@@ -24,6 +24,10 @@ class SeedConfig extends ContainerConfig
             $yamlFile = __DIR__ . "/../../../../tests/Infrastructure/DBAL/fixtures.yml";
             $fixtures = $yaml->parse(file_get_contents($yamlFile));
 
+            if (! is_array($fixtures)) {
+                throw new RuntimeException("Could not parse fixtures file");
+            }
+
             foreach ($fixtures as $table => $rows) {
                 foreach ($rows as $row) {
                     $di->get('db.connection')->insert($table, $row);

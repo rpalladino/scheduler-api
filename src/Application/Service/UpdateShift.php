@@ -18,6 +18,7 @@ class UpdateShift
 
     private $payload;
     private $shiftMapper;
+    private $userMapper;
 
     public function __construct(ShiftMapper $shiftMapper, UserMapper $userMapper)
     {

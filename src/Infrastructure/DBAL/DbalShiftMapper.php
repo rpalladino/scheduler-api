@@ -27,6 +27,8 @@ class DbalShiftMapper extends DbalMapper implements ShiftMapper
                               e.phone as e_phone, e.created_at as e_created_at,
                               e.updated_at as e_updated_at";
 
+    private $userMapper;
+
     protected static function findStatement()
     {
         return sprintf(self::findWithAssociations(), "s.id = ?");

@@ -13,6 +13,8 @@ class HoursWorkedCalculator
     const DAY_OF_WEEK_START = 1;
     const DAY_OF_WEEK_END = 7;
 
+    private $shiftMapper;
+
     public function __construct(ShiftMapper $shiftMapper)
     {
         $this->shiftMapper = $shiftMapper;

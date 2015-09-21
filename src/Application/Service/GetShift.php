@@ -9,6 +9,7 @@ use Scheduler\Domain\Model\Shift\ShiftMapper;
 class GetShift
 {
     private $payload;
+    private $shiftMapper;
 
     public function __construct(ShiftMapper $shiftMapper)
     {

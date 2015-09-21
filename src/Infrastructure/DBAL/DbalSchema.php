@@ -7,6 +7,8 @@ use Doctrine\DBAL\Schema\Schema;
 
 class DbalSchema
 {
+    private $connection;
+
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
