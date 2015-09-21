@@ -125,6 +125,11 @@ class ShiftSpec extends ObjectBehavior
         $this->shouldNotBe($modified);
     }
 
+    function it_can_calculate_hours_worked()
+    {
+        $this->getHours()->shouldReturn(6.0);
+    }
+
     function it_has_a_created_time()
     {
         $this->getCreated()->shouldHaveType(DateTimeInterface::class);

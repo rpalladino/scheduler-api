@@ -105,6 +105,13 @@ class Shift
         return $this->endTime;
     }
 
+    public function getHours()
+    {
+        $diff = $this->startTime->diff($this->endTime);
+
+        return $diff->h + ($diff->i / 60) - $this->break;
+    }
+
     public function getCreated()
     {
         return $this->created;
