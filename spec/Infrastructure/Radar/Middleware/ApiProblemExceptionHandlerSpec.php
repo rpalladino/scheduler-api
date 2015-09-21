@@ -8,16 +8,11 @@ use Prophecy\Argument;
 use Zend\Diactoros\ServerRequest as Request;
 use Zend\Diactoros\Response;
 
-class ExceptionHandlerSpec extends ObjectBehavior
+class ApiProblemExceptionHandlerSpec extends ObjectBehavior
 {
     function let()
     {
         $this->beConstructedWith(new Response());
-    }
-
-    function it_is_initializable()
-    {
-        $this->shouldHaveType('Relay\Middleware\ExceptionHandler');
     }
 
     function it_responds_with_message_in_api_problem_format()

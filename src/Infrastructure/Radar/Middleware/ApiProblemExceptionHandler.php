@@ -7,7 +7,7 @@ use Crell\ApiProblem\ApiProblem;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ExceptionHandler extends \Relay\Middleware\ExceptionHandler
+class ApiProblemExceptionHandler extends \Relay\Middleware\ExceptionHandler
 {
     const SERVER_ERROR_MESSAGE = "We're experiencing some trouble.";
 

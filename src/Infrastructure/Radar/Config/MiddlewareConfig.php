@@ -8,7 +8,7 @@ use Radar\Adr\Handler\ActionHandler;
 use Radar\Adr\Handler\RoutingHandler;
 use Relay\Middleware\JsonDecoder;
 use Relay\Middleware\ResponseSender;
-use Scheduler\Infrastructure\Radar\Middleware\ExceptionHandler;
+use Scheduler\Infrastructure\Radar\Middleware\ApiProblemExceptionHandler;
 use Zend\Diactoros\Response;
 
 class MiddlewareConfig extends ContainerConfig
@@ -18,7 +18,7 @@ class MiddlewareConfig extends ContainerConfig
         $adr = $di->get('radar/adr:adr');
 
         $adr->middle(new ResponseSender());
-        $adr->middle(new ExceptionHandler(new Response()));
+        $adr->middle(new ApiProblemExceptionHandler(new Response()));
         $adr->middle(new JsonDecoder());
         $adr->middle(RoutingHandler::class);
         $adr->middle(ActionHandler::class);
