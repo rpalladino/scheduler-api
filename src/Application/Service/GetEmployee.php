@@ -3,6 +3,7 @@
 namespace Scheduler\Application\Service;
 
 use Aura\Payload\Payload;
+use Scheduler\Domain\Model\User\NullUser;
 use Scheduler\Domain\Model\User\User;
 use Scheduler\Domain\Model\User\UserMapper;
 
@@ -24,6 +25,10 @@ class GetEmployee
         }
 
         $employee = $this->userMapper->find($employeeId);
+
+        if ($employee === null) {
+            return $this->payload->setStatus(Payload::NOT_FOUND);
+        }
 
         return $this->payload->setStatus(Payload::SUCCESS)
                              ->setOutput($employee);

@@ -43,4 +43,14 @@ class GetEmployeeSpec extends ObjectBehavior
 
         $payload->getStatus()->shouldBe(Payload::NOT_AUTHENTICATED);
     }
+
+    function it_returns_not_found_when_employee_not_found()
+    {
+        $currentUser = new User(1, "John Williamson", "manager", "john@abc.com");
+        $currentUser->authenticate();
+
+        $payload = $this($currentUser, 43564356);
+
+        $payload->getStatus()->shouldBe(Payload::NOT_FOUND);
+    }
 }
