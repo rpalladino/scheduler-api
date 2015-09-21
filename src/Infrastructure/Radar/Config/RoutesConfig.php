@@ -20,12 +20,14 @@ class RoutesConfig extends ContainerConfig
 
         $di->params[Service\CreateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetEmployee::class]["userMapper"] = $di->lazyGet("user.mapper");
+        $di->params[Service\GetHoursWorkedInWeek::class]["calculator"] = $di->lazyGet("hours.calculator");
         $di->params[Service\GetShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetShiftsAssignedToEmployee::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetShiftsInTimePeriod::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\UpdateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\UpdateShift::class]["userMapper"] = $di->lazyGet("user.mapper");
 
+        $di->params[Responder\HoursWorkedSummaryResponder::class]["resource"] = $di->lazyGet("summary.resource");
         $di->params[Responder\ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
         $di->params[Responder\ShiftItemResponder::class]["shiftResource"] = $di->lazyGet("shift.resource");
         $di->params[Responder\ShiftItemResponder::class]["userResource"] = $di->lazyGet("user.resource");
@@ -64,7 +66,8 @@ class RoutesConfig extends ContainerConfig
             ->responder(Responder\ShiftResponder::class);
 
         $adr->get('get.employee.hours.weekly', "/employees/{id}/hours/weekly", Service\GetHoursWorkedInWeek::class)
-            ->input(Input\GetEmployeeSummmary::class);
+            ->input(Input\GetEmployeeHoursWeeklyInput::class)
+            ->responder(Responder\HoursWorkedSummaryResponder::class);
 
         $adr->get('get.shifts', "/shifts", Service\GetShiftsInTimePeriod::class)
             ->input(Input\GetShiftsInput::class)

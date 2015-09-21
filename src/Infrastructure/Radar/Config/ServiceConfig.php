@@ -7,8 +7,10 @@ use Aura\Di\ContainerConfig;
 use Doctrine\DBAL\DriverManager;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\UserMapper;
+use Scheduler\Domain\Service\HoursWorkedCalculator;
 use Scheduler\Infrastructure\Auth\TokenAuthenticator;
 use Scheduler\Infrastructure\DBAL;
+use Scheduler\REST\Resource\HoursWorkedSummaryResource;
 use Scheduler\REST\Resource\ShiftResource;
 use Scheduler\REST\Resource\UserResource;
 
@@ -50,5 +52,10 @@ class ServiceConfig extends ContainerConfig
         $di->params[ShiftResource::class]["userResource"] = $di->lazyGet("user.resource");
 
         $di->set("user.resource", $di->lazyNew(UserResource::class));
+
+        $di->set("summary.resource", $di->lazyNew(HoursWorkedSummaryResource::class));
+
+        $di->set("hours.calculator", $di->lazyNew(HoursWorkedCalculator::class));
+        $di->params[HoursWorkedCalculator::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
     }
 }
