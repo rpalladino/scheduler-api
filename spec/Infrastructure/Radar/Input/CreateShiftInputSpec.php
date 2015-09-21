@@ -5,12 +5,12 @@ namespace spec\Scheduler\Infrastructure\Radar\Input;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+use Scheduler\Domain\Model\User\Authenticator;
 use Zend\Diactoros\ServerRequest as Request;
-use Scheduler\Infrastructure\Auth\TokenAuthenticator;
 
 class CreateShiftInputSpec extends ObjectBehavior
 {
-    function let(TokenAuthenticator $authenticator)
+    function let(Authenticator $authenticator)
     {
         $this->beConstructedWith($authenticator);
     }

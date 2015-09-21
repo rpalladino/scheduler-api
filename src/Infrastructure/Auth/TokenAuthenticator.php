@@ -2,10 +2,11 @@
 
 namespace Scheduler\Infrastructure\Auth;
 
+use Scheduler\Domain\Model\User\Authenticator;
 use Scheduler\Domain\Model\User\NullUser;
 use Scheduler\Domain\Model\User\UserMapper;
 
-class TokenAuthenticator
+class TokenAuthenticator implements Authenticator
 {
     private $userMapper;
 

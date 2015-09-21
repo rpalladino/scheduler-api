@@ -3,13 +3,13 @@
 namespace Scheduler\Infrastructure\Radar\Input;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Scheduler\Infrastructure\Auth\TokenAuthenticator;
+use Scheduler\Domain\Model\User\Authenticator;
 
 class Input
 {
     private $authenticator;
 
-    public function __construct(TokenAuthenticator $authenticator)
+    public function __construct(Authenticator $authenticator)
     {
         $this->authenticator = $authenticator;
     }
