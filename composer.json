@@ -31,6 +31,9 @@
             "phpspec run --format=progress",
             "phpunit",
             "behat --format=progress"
+        ],
+        "post-install-cmd": [
+            "make"
         ]
     },
     "minimum-stability": "dev",

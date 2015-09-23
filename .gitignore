@@ -1,2 +1,4 @@
-vendor
-.env
+/.env
+/web/docs/**/*.html
+/node_modules
+/vendor
