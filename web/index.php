@@ -9,7 +9,7 @@ use Zend\Diactoros\ServerRequestFactory;
 
 $dotenvPath = __DIR__ . "/..";
 if (file_exists($dotenvPath . "/.env")) {
-    $dotenv = new Dotenv(__DIR__ . "/../");
+    $dotenv = new Dotenv($dotenvPath);
     $dotenv->load();
 }
 

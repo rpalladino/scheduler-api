@@ -28,8 +28,11 @@ trait SchedulerApiCommon
         $this->restApiBrowser = $restApiBrowser;
         $this->jsonInspector = $jsonInspector;
 
-        $dotenv = new Dotenv(__DIR__ . "/../../");
-        $dotenv->load();
+        $dotenvPath = __DIR__ . "/../..";
+        if (file_exists($dotenvPath . "/.env")) {
+            $dotenv = new Dotenv($dotenvPath);
+            $dotenv->load();
+        }
 
         $builder = new ContainerBuilder();
         $this->container = $builder->newConfiguredInstance([ServiceConfig::class]);
