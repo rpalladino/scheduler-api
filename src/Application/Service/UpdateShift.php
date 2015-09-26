@@ -3,7 +3,6 @@
 namespace Scheduler\Application\Service;
 
 use DateTime;
-use DateTimeInterface;
 use Aura\Payload\Payload;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\NullUser;

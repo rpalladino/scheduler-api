@@ -4,7 +4,6 @@ namespace Scheduler\Application\Service;
 
 use DateTime;
 use Aura\Payload\Payload;
-use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\User;
 
