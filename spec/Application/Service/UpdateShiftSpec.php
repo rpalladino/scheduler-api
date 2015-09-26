@@ -43,14 +43,14 @@ class UpdateShiftSpec extends ObjectBehavior
         $employee = new User($employeeId, "Shelly Levene", "employee", "oldguy@aol.com");
         $userMapper->find($employeeId)->willReturn($employee);
 
-        $payload = $this($currentUser, $shiftId, $employeeId, "07:30 AM", "11:30 AM", 0.5);
+        $payload = $this($currentUser, $shiftId, $employeeId, "07:30 AM", "11:30 AM", 0.75);
 
         $payload->getStatus()->shouldBe(Payload::UPDATED);
         $payload->getOutput()->shouldHaveType(Shift::class);
         $payload->getOutput()->getEmployee()->getId()->shouldBe($employeeId);
         $payload->getOutput()->getStartTime()->shouldBeLike(new DateTime("07:30 AM"));
         $payload->getOutput()->getEndTime()->shouldBeLike(new DateTime("11:30 AM"));
-        $payload->getOutput()->getBreak()->shouldBe(0.5);
+        $payload->getOutput()->getBreak()->shouldBe(0.75);
     }
 
     function it_does_not_assign_employee_if_employee_id_is_null($shiftMapper, $userMapper)

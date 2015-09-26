@@ -125,6 +125,14 @@ class ShiftSpec extends ObjectBehavior
         $this->shouldNotBe($modified);
     }
 
+    function it_can_change_break_immutably()
+    {
+        $newBreak = 0.75;
+        $modified = $this->changeBreak($newBreak);
+        $modified->getBreak()->shouldBe($newBreak);
+        $this->shouldNotBe($modified);
+    }
+
     function it_can_calculate_hours_worked()
     {
         $this->getHours()->shouldReturn(6.0);

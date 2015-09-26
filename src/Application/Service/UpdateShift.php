@@ -74,7 +74,8 @@ class UpdateShift
         }
 
         $shift = $shift->changeStartTime($start)
-                       ->changeEndTime($end);
+                       ->changeEndTime($end)
+                       ->changeBreak($break);
 
         $this->shiftMapper->update($shift);
 

@@ -75,6 +75,15 @@ class Shift
         return $shift;
     }
 
+    public function changeBreak($break)
+    {
+        $shift = clone $this;
+        $shift->break = $break;
+        $shift->updated = new DateTimeImmutable();
+
+        return $shift;
+    }
+
     public function getId()
     {
         return $this->id;
