@@ -13,7 +13,7 @@ class ApiProblemResponderSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beAnInstanceOf('Scheduler\Infrastructure\Radar\Responder\Responder');
+        $this->beAnInstanceOf('Scheduler\Infrastructure\Radar\Responder\ResourceResponder');
     }
 
     function it_responds_with_problem_when_parameters_not_valid()

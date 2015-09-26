@@ -38,7 +38,6 @@ class RoutesConfig extends ContainerConfig
     {
         $adr = $di->get('radar/adr:adr');
         $adr->input(Input\Input::class);
-        $adr->responder(Responder\Responder::class);
 
         $adr->get('entry', "/", function ($user) {
             $payload = new \Aura\Payload\Payload();
@@ -53,7 +52,7 @@ class RoutesConfig extends ContainerConfig
             ]);
 
             return $payload;
-        });
+        })->responder(Responder\ApiProblemResponder::class);
 
         $adr->get('get.employee', '/employees/{id}', Service\GetEmployee::class)
             ->input(Input\GetEmployeeInput::class)
