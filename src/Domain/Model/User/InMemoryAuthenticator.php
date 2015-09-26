@@ -1,12 +1,8 @@
 <?php
 
-namespace Scheduler\Infrastructure\Auth;
+namespace Scheduler\Domain\Model\User;
 
-use Scheduler\Domain\Model\User\Authenticator;
-use Scheduler\Domain\Model\User\NullUser;
-use Scheduler\Domain\Model\User\UserMapper;
-
-class TokenAuthenticator implements Authenticator
+class InMemoryAuthenticator implements Authenticator
 {
     private $userMapper;
 

@@ -8,7 +8,7 @@ use Doctrine\DBAL\DriverManager;
 use Scheduler\Domain\Model\Shift\HoursWorkedCalculator;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\UserMapper;
-use Scheduler\Infrastructure\Auth\TokenAuthenticator;
+use Scheduler\Domain\Model\User\InMemoryAuthenticator;
 use Scheduler\Infrastructure\DBAL;
 use Scheduler\REST\Resource\HoursWorkedSummaryResource;
 use Scheduler\REST\Resource\ShiftResource;
@@ -40,9 +40,9 @@ class ServiceConfig extends ContainerConfig
         $di->params[DBAL\DbalShiftMapper::class]['db'] = $di->lazyGet('db.connection');
         $di->params[DBAL\DbalShiftMapper::class]['userMapper'] = $di->lazyGet("user.mapper");
 
-        $di->set("auth.authenticator", $di->lazyNew(TokenAuthenticator::class));
-        $di->params[TokenAuthenticator::class]["userMapper"] = $di->lazyGet("user.mapper");
-        $di->params[TokenAuthenticator::class]["tokenMap"] = [
+        $di->set("user.authenticator", $di->lazyNew(InMemoryAuthenticator::class));
+        $di->params[InMemoryAuthenticator::class]["userMapper"] = $di->lazyGet("user.mapper");
+        $di->params[InMemoryAuthenticator::class]["tokenMap"] = [
             "i_am_a_manager" => 1,
             "i_am_an_employee" => 2,
             "i_am_shelly" => 3

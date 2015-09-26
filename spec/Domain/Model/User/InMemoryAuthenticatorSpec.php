@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Scheduler\Infrastructure\Auth;
+namespace spec\Scheduler\Domain\Model\User;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -9,7 +9,7 @@ use Scheduler\Domain\Model\User\NullUser;
 use Scheduler\Domain\Model\User\User;
 use Scheduler\Domain\Model\User\UserMapper;
 
-class TokenAuthenticatorSpec extends ObjectBehavior
+class InMemoryAuthenticatorSpec extends ObjectBehavior
 {
 
     function let(UserMapper $userMapper)

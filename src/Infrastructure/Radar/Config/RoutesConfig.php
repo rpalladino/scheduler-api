@@ -14,9 +14,9 @@ class RoutesConfig extends ContainerConfig
 {
     public function define(Container $di)
     {
-        $di->params[Input\Input::class]["authenticator"] = $di->lazyGet("auth.authenticator");
-        $di->params[Input\GetEmployeeShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
-        $di->params[Input\GetShiftsInput::class]["authenticator"] = $di->lazyGet("auth.authenticator");
+        $di->params[Input\Input::class]["authenticator"] = $di->lazyGet("user.authenticator");
+        $di->params[Input\GetEmployeeShiftsInput::class]["authenticator"] = $di->lazyGet("user.authenticator");
+        $di->params[Input\GetShiftsInput::class]["authenticator"] = $di->lazyGet("user.authenticator");
 
         $di->params[Service\CreateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetEmployee::class]["userMapper"] = $di->lazyGet("user.mapper");
