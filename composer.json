@@ -19,6 +19,7 @@
         "rezzza/rest-api-behat-extension": "^2.0@dev"
     },
     "require": {
+        "php": "^5.6",
         "crell/api-problem": "^1.7@dev",
         "doctrine/dbal": "^2.5",
         "radar/adr": "1.x-dev",
