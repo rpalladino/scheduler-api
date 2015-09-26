@@ -4,7 +4,7 @@ namespace Scheduler\Infrastructure\Radar\Responder;
 
 use Crell\ApiProblem\ApiProblem;
 
-trait ApiProblemResponder
+class ApiProblemResponder extends \Radar\Adr\Responder\Responder
 {
     protected function notFound()
     {

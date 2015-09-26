@@ -2,10 +2,8 @@
 
 namespace Scheduler\Infrastructure\Radar\Responder;
 
-class ResourceResponder extends \Radar\Adr\Responder\Responder
+class ResourceResponder extends ApiProblemResponder
 {
-    use ApiProblemResponder;
-
     protected $resource;
 
     protected function success()
