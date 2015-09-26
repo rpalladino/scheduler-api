@@ -23,6 +23,6 @@ class Input
     {
         $token = $request->getHeaderLine("x-access-token");
 
-        return $this->authenticator->getUserForToken($token);
+        return $this->authenticator->authenticate($token);
     }
 }

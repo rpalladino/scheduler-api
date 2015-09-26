@@ -14,7 +14,7 @@ class InMemoryAuthenticator implements Authenticator
         $this->tokenMap = $tokenMap;
     }
 
-    public function getUserForToken($token)
+    public function authenticate($token)
     {
         if (! array_key_exists($token, $this->tokenMap)) {
             return new NullUser();

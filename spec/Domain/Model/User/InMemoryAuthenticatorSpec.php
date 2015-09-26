@@ -17,7 +17,7 @@ class InMemoryAuthenticatorSpec extends ObjectBehavior
         $this->beConstructedWith($userMapper, []);
     }
 
-    function it_gets_user_for_access_token($userMapper)
+    function it_authenticates_user_for_access_token($userMapper)
     {
         $token = "i_am_an_employee";
         $employee = new User(1, "Richard Roma", "employee", "ricky@roma.com");
@@ -27,7 +27,7 @@ class InMemoryAuthenticatorSpec extends ObjectBehavior
         ];
         $this->beConstructedWith($userMapper, $tokenMap);
 
-        $user = $this->getUserForToken($token);
+        $user = $this->authenticate($token);
         $user->shouldBe($employee);
         $user->shouldBeAuthenticated();
     }
@@ -35,7 +35,7 @@ class InMemoryAuthenticatorSpec extends ObjectBehavior
     function it_returns_null_user_if_token_not_valid()
     {
         $token = "invalid_token";
-        $user = $this->getUserForToken($token);
+        $user = $this->authenticate($token);
         $user->shouldBeLike(new NullUser());
         $user->shouldNotBeAuthenticated();
     }
