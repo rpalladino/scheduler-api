@@ -20,7 +20,7 @@ class HoursWorkedCalculatorSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Scheduler\Domain\Service\HoursWorkedCalculator');
+        $this->shouldHaveType('Scheduler\Domain\Model\Shift\HoursWorkedCalculator');
     }
 
     function it_calculates_hours_worked_in_week($shiftMapper)

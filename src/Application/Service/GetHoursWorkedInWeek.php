@@ -3,8 +3,8 @@
 namespace Scheduler\Application\Service;
 
 use Aura\Payload\Payload;
+use Scheduler\Domain\Model\Shift\HoursWorkedCalculator;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\Domain\Service\HoursWorkedCalculator;
 
 class GetHoursWorkedInWeek
 {

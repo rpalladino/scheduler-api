@@ -1,11 +1,9 @@
 <?php
 
-namespace Scheduler\Domain\Service;
+namespace Scheduler\Domain\Model\Shift;
 
 use DateTimeInterface;
 use DateTimeImmutable;
-use Scheduler\Domain\Model\Shift\HoursWorkedSummary;
-use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\User;
 
 class HoursWorkedCalculator

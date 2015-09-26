@@ -8,11 +8,11 @@ use Prophecy\Argument;
 use DateTimeImmutable;
 use Aura\Payload\Payload;
 use Scheduler\Application\Service\GetHoursWorkedInWeek;
+use Scheduler\Domain\Model\Shift\HoursWorkedCalculator;
 use Scheduler\Domain\Model\Shift\HoursWorkedSummary;
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\Domain\Service\HoursWorkedCalculator;
 
 class GetHoursWorkedInWeekSpec extends ObjectBehavior
 {
