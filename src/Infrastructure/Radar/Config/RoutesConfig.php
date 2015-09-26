@@ -49,9 +49,7 @@ class RoutesConfig extends ContainerConfig
 
             $payload->setStatus($payload::SUCCESS);
             $payload->setOutput([
-                "links" => [
-                    "get_shifts" => "/shifts"
-                ]
+                "documentation_url" => "/docs"
             ]);
 
             return $payload;
