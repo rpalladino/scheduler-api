@@ -64,15 +64,6 @@ class EmployeeApiContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given there is a manager named :name with the email :email and phone :phone
-     */
-    // public function thereIsAManagerNamedWithTheEmailAndPhone($name, $email, $phone)
-    // {
-    //     $aManager = new User(null, $name, "manager", $email, $phone);
-    //     $this->userMapper->insert($aManager);
-    // }
-
-    /**
      * @Given I was assigned :count shift(s) by the manager named :name with the email :email and phone :phone
      */
     public function iWasAssignedShiftByTheManagerNamedWithTheEmailAndPhone($count, $name, $email, $phone)
