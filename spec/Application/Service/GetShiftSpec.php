@@ -18,9 +18,28 @@ class GetShiftSpec extends ObjectBehavior
         $this->beConstructedWith($shiftMapper);
     }
 
-    function it_is_initializable()
+    function it_gets_a_shift($shiftMapper)
     {
-        $this->shouldHaveType('Scheduler\Application\Service\GetShift');
+        $currentUser = new User(12346, "Shelly Levene", "employee", "oldguy@aol.com");
+        $currentUser->authenticate();
+        $manager = new User(12345, "John Williamson", "manager", "john@abc.com");
+
+        $start = new DateTime("10:30 AM");
+        $end = new DateTime("1:30 PM");
+        $userShift = new Shift(76543, $manager, $currentUser, 0.5, $start, $end);
+
+        $shiftMapper->find(76543)->willReturn($userShift);
+        $shiftMapper->findShiftsInTimePeriod($start, $end)->willReturn([
+            $userShift
+        ]);
+
+        $withCoworkers = false;
+        $payload = $this($currentUser, 76543, $withCoworkers);
+
+        $payload->shouldHaveType(Payload::class);
+        $payload->getStatus()->shouldBe(Payload::SUCCESS);
+        $payload->getOutput()->shouldHaveType(Shift::class);
+        $payload->getOutput()->shouldNotHaveCoworkers();
     }
 
     function it_gets_a_shift_with_coworkers($shiftMapper)
@@ -46,11 +65,11 @@ class GetShiftSpec extends ObjectBehavior
 
         $payload->shouldHaveType(Payload::class);
         $payload->getStatus()->shouldBe(Payload::SUCCESS);
-        $payload->getOutput()->shouldBeArray();
-        $payload->getOutput()->shouldHaveKeyWithValue('shift', $userShift);
-        $payload->getOutput()->shouldHaveKeyWithValue('coworkers', [
+        $payload->getOutput()->shouldHaveType(Shift::class);
+        $payload->getOutput()->getCoworkers()->shouldBeArray();
+        $payload->getOutput()->getCoworkers()->shouldContain(
             $coworkerShift->getEmployee()
-        ]);
+        );
     }
 
     function it_does_not_allow_unauthenticated_access()

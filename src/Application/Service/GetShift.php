@@ -23,22 +23,20 @@ class GetShift
             return $this->payload->setStatus(Payload::NOT_AUTHENTICATED);
         }
 
-        $output = [];
-
         $shift = $this->shiftMapper->find($shiftId);
 
         if ($shift === null) {
             return $this->payload->setStatus(Payload::NOT_FOUND);
         }
 
-        $output["shift"] = $shift;
-
         if ($withCoworkers) {
-            $output["coworkers"] = $this->findCoworkersForShift($shift);
+            $shift = $shift->withCoworkers(
+                $this->findCoworkersForShift($shift)
+            );
         }
 
         return $this->payload->setStatus(Payload::SUCCESS)
-                             ->setOutput($output);
+                             ->setOutput($shift);
     }
 
     protected function findCoworkersForShift(Shift $shift)

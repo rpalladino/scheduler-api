@@ -15,6 +15,7 @@ class Shift
     private $break;
     private $startTime;
     private $endTime;
+    private $coworkers;
     private $created;
     private $updated;
 
@@ -43,6 +44,7 @@ class Shift
         $this->break = $break;
         $this->startTime = $startTime;
         $this->endTime = $endTime;
+        $this->coworkers = [];
 
         $this->created = isset($created) ? $created : new DateTimeImmutable();
         $this->updated = isset($updated) ? $updated : new DateTimeImmutable();
@@ -79,6 +81,15 @@ class Shift
     {
         $shift = clone $this;
         $shift->break = $break;
+        $shift->updated = new DateTimeImmutable();
+
+        return $shift;
+    }
+
+    public function withCoworkers(array $coworkers)
+    {
+        $shift = clone $this;
+        $shift->coworkers = $coworkers;
         $shift->updated = new DateTimeImmutable();
 
         return $shift;
@@ -129,5 +140,15 @@ class Shift
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    public function hasCoworkers()
+    {
+        return (bool) count($this->coworkers);
+    }
+
+    public function getCoworkers()
+    {
+        return $this->coworkers;
     }
 }

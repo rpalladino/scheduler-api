@@ -133,6 +133,22 @@ class ShiftSpec extends ObjectBehavior
         $this->shouldNotBe($modified);
     }
 
+    function it_can_have_coworkers()
+    {
+        $this->shouldNotHaveCoworkers();
+
+        $coworkers = [
+            User::employeeNamedWithEmail("Sheldon Levene", "oldguy@aol.com")
+        ];
+        $modified = $this->withCoworkers($coworkers);
+
+        $modified->shouldHaveCoworkers();
+        $modified->getCoworkers()->shouldBeArray();
+        $modified->getCoworkers()->shouldContain($coworkers[0]);
+        $this->shouldNotBe($modified);
+
+    }
+
     function it_can_calculate_hours_worked()
     {
         $this->getHours()->shouldReturn(6.0);

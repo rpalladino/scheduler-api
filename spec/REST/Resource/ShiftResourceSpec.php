@@ -50,6 +50,23 @@ class ShiftResourceSpec extends ObjectBehavior
         $result['employee']->shouldHaveKeyWithValue("phone", "312-322-2211");
     }
 
+    function it_can_transform_a_single_shift_with_coworkers()
+    {
+        extract($this->examples());
+        $shift = new Shift(54321, $manager, $employee, 0.5, $start, $end);
+        $shelly = new User(12347, "Shelly Levene", "employee", "oldguy@aol.com");
+        $shift = $shift->withCoworkers([$shelly]);
+
+        $result = $this->transform($shift);
+
+        $result->shouldBeArray();
+        $result->shouldHaveKey('coworkers');
+        $result['coworkers']->shouldHaveCount(1);
+        $result['coworkers'][0]->shouldHaveKeyWithValue('id', $shelly->getId());
+        $result['coworkers'][0]->shouldHaveKeyWithValue('name', $shelly->getName());
+        $result['coworkers'][0]->shouldHaveKeyWithValue('email', $shelly->getEmail());
+    }
+
     function it_can_return_a_shift_item()
     {
         extract($this->examples());

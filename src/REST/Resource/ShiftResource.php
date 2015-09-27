@@ -3,6 +3,7 @@
 namespace Scheduler\REST\Resource;
 
 use Scheduler\Domain\Model\Shift\Shift;
+use Scheduler\Domain\Model\User\User;
 use Scheduler\REST\Resource\UserResource;
 
 class ShiftResource
@@ -16,7 +17,7 @@ class ShiftResource
 
     public function transform(Shift $shift)
     {
-        return [
+        $resource = [
             "id" => $shift->getId(),
             "manager" => $this->userResource->transform($shift->getManager()),
             "start_time" => $shift->getStartTime()->format(DATE_RFC2822),
@@ -24,6 +25,14 @@ class ShiftResource
             "break" => $shift->getBreak(),
             "employee" => $this->userResource->transform($shift->getEmployee())
         ];
+
+        if ($shift->hasCoworkers()) {
+            $resource['coworkers'] = array_map(function (User $coworker) {
+                return $this->userResource->transform($coworker);
+            }, $shift->getCoworkers());
+        }
+
+        return $resource;
     }
 
     public function item(Shift $shift)

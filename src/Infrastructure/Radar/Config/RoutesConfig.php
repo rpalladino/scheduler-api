@@ -29,8 +29,8 @@ class RoutesConfig extends ContainerConfig
 
         $di->params[Responder\HoursWorkedSummaryResponder::class]["resource"] = $di->lazyGet("summary.resource");
         $di->params[Responder\ShiftResponder::class]["resource"] = $di->lazyGet("shift.resource");
-        $di->params[Responder\ShiftItemResponder::class]["shiftResource"] = $di->lazyGet("shift.resource");
-        $di->params[Responder\ShiftItemResponder::class]["userResource"] = $di->lazyGet("user.resource");
+        // $di->params[Responder\ShiftItemResponder::class]["shiftResource"] = $di->lazyGet("shift.resource");
+        // $di->params[Responder\ShiftItemResponder::class]["userResource"] = $di->lazyGet("user.resource");
         $di->params[Responder\UserResponder::class]["resource"] = $di->lazyGet("user.resource");
     }
 
@@ -76,7 +76,7 @@ class RoutesConfig extends ContainerConfig
 
         $adr->get('get.shift', "/shifts/{id}", Service\GetShift::class)
             ->input(Input\GetShiftInput::class)
-            ->responder(Responder\ShiftItemResponder::class);
+            ->responder(Responder\ShiftResponder::class);
 
         $adr->put('put.shifts', "/shifts/{id}", Service\UpdateShift::class)
             ->input(Input\UpdateShiftInput::class)
