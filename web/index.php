@@ -16,10 +16,10 @@ if (file_exists($dotenvPath . "/.env")) {
 
 $boot = new Boot();
 $adr = $boot->adr([
-    Scheduler\Infrastructure\Radar\Config\ServiceConfig::class,
-    Scheduler\Infrastructure\Radar\Config\MiddlewareConfig::class,
-    Scheduler\Infrastructure\Radar\Config\RoutesConfig::class,
-    Scheduler\Infrastructure\Radar\Config\SeedConfig::class
+    Scheduler\Web\Radar\Config\ServiceConfig::class,
+    Scheduler\Web\Radar\Config\MiddlewareConfig::class,
+    Scheduler\Web\Radar\Config\RoutesConfig::class,
+    Scheduler\Web\Radar\Config\SeedConfig::class
 ]);
 
 $adr->run(ServerRequestFactory::fromGlobals(), new Response());

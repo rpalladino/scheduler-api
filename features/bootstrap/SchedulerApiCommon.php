@@ -4,7 +4,7 @@ use Aura\Di\ContainerBuilder;
 use Dotenv\Dotenv;
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\Infrastructure\Radar\Config\ServiceConfig;
+use Scheduler\Web\Radar\Config\ServiceConfig;
 
 trait SchedulerApiCommon
 {
