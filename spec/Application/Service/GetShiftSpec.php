@@ -8,6 +8,7 @@ use Prophecy\Argument;
 use DateTime;
 use Aura\Payload\Payload;
 use Scheduler\Domain\Model\Shift\Shift;
+use Scheduler\Domain\Model\Shift\ShiftCoworkersFinder;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\User;
 
@@ -15,7 +16,8 @@ class GetShiftSpec extends ObjectBehavior
 {
     function let(ShiftMapper $shiftMapper)
     {
-        $this->beConstructedWith($shiftMapper);
+        $coworkersFinder = new ShiftCoworkersFinder($shiftMapper->getWrappedObject());
+        $this->beConstructedWith($shiftMapper, $coworkersFinder);
     }
 
     function it_gets_a_shift($shiftMapper)

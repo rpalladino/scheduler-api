@@ -6,6 +6,7 @@ use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
 use Doctrine\DBAL\DriverManager;
 use Scheduler\Domain\Model\Shift\HoursWorkedCalculator;
+use Scheduler\Domain\Model\Shift\ShiftCoworkersFinder;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\UserMapper;
 use Scheduler\Domain\Model\User\InMemoryAuthenticator;
@@ -57,5 +58,8 @@ class ServiceConfig extends ContainerConfig
 
         $di->set("hours.calculator", $di->lazyNew(HoursWorkedCalculator::class));
         $di->params[HoursWorkedCalculator::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
+
+        $di->set("shift.coworkers.finder", $di->lazyNew(ShiftCoworkersFinder::class));
+        $di->params[ShiftCoworkersFinder::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
     }
 }

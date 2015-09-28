@@ -22,6 +22,7 @@ class RoutesConfig extends ContainerConfig
         $di->params[Service\GetEmployee::class]["userMapper"] = $di->lazyGet("user.mapper");
         $di->params[Service\GetHoursWorkedInWeek::class]["calculator"] = $di->lazyGet("hours.calculator");
         $di->params[Service\GetShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
+        $di->params[Service\GetShift::class]["shiftCoworkersFinder"] = $di->lazyGet("shift.coworkers.finder");
         $di->params[Service\GetShiftsAssignedToEmployee::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\GetShiftsInTimePeriod::class]["shiftMapper"] = $di->lazyGet("shift.mapper");
         $di->params[Service\UpdateShift::class]["shiftMapper"] = $di->lazyGet("shift.mapper");

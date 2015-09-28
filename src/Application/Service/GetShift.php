@@ -4,17 +4,22 @@ namespace Scheduler\Application\Service;
 
 use Aura\Payload\Payload;
 use Scheduler\Domain\Model\Shift\Shift;
+use Scheduler\Domain\Model\Shift\ShiftCoworkersFinder;
 use Scheduler\Domain\Model\Shift\ShiftMapper;
 
 class GetShift
 {
     private $payload;
     private $shiftMapper;
+    private $shiftCoworkersFinder;
 
-    public function __construct(ShiftMapper $shiftMapper)
-    {
+    public function __construct(
+        ShiftMapper $shiftMapper,
+        ShiftCoworkersFinder $shiftCoworkersFinder
+    ) {
         $this->payload = new Payload();
         $this->shiftMapper = $shiftMapper;
+        $this->shiftCoworkersFinder = $shiftCoworkersFinder;
     }
 
     public function __invoke($currentUser, $shiftId, $withCoworkers)
@@ -31,28 +36,11 @@ class GetShift
 
         if ($withCoworkers) {
             $shift = $shift->withCoworkers(
-                $this->findCoworkersForShift($shift)
+                $this->shiftCoworkersFinder->findCoworkersForShift($shift)
             );
         }
 
         return $this->payload->setStatus(Payload::SUCCESS)
                              ->setOutput($shift);
-    }
-
-    protected function findCoworkersForShift(Shift $shift)
-    {
-        $shifts = $this->shiftMapper->findShiftsInTimePeriod(
-            $shift->getStartTime(),
-            $shift->getEndTime()
-        );
-        $employee = $shift->getEmployee();
-        $shifts = array_filter($shifts, function ($shift) use ($employee) {
-            return $shift->getEmployee()->getId() !== $employee->getId();
-        });
-        $coworkers = array_map(function ($shift) {
-            return $shift->getEmployee();
-        }, $shifts);
-
-        return array_values($coworkers);
     }
 }
