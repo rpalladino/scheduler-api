@@ -2,7 +2,7 @@
 
 namespace Scheduler\Web\Radar\Responder;
 
-use Scheduler\REST\Resource\ShiftResource;
+use Scheduler\Web\Resource\ShiftResource;
 
 class ShiftResponder extends ResourceResponder
 {

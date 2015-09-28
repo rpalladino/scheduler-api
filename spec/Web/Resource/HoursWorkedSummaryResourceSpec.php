@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Scheduler\REST\Resource;
+namespace spec\Scheduler\Web\Resource;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -11,7 +11,7 @@ class HoursWorkedSummaryResourceSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Scheduler\REST\Resource\HoursWorkedSummaryResource');
+        $this->shouldHaveType('Scheduler\Web\Resource\HoursWorkedSummaryResource');
     }
 
     function it_can_transform_a_single_instance()

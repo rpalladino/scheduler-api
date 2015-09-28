@@ -1,10 +1,9 @@
 <?php
 
-namespace Scheduler\REST\Resource;
+namespace Scheduler\Web\Resource;
 
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\REST\Resource\UserResource;
 
 class ShiftResource
 {

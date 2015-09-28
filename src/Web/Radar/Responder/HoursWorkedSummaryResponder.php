@@ -2,7 +2,7 @@
 
 namespace Scheduler\Web\Radar\Responder;
 
-use Scheduler\REST\Resource\HoursWorkedSummaryResource;
+use Scheduler\Web\Resource\HoursWorkedSummaryResource;
 
 class HoursWorkedSummaryResponder extends ResourceResponder
 {

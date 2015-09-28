@@ -10,8 +10,8 @@ use Aura\Payload\Payload;
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\User\NullUser;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\REST\Resource\ShiftResource;
-use Scheduler\REST\Resource\UserResource;
+use Scheduler\Web\Resource\ShiftResource;
+use Scheduler\Web\Resource\UserResource;
 use Zend\Diactoros\ServerRequest as Request;
 use Zend\Diactoros\Response;
 

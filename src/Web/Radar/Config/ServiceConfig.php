@@ -10,9 +10,9 @@ use Scheduler\Domain\Model\Shift\ShiftMapper;
 use Scheduler\Domain\Model\User\UserMapper;
 use Scheduler\Domain\Model\User\InMemoryAuthenticator;
 use Scheduler\Infrastructure\DBAL;
-use Scheduler\REST\Resource\HoursWorkedSummaryResource;
-use Scheduler\REST\Resource\ShiftResource;
-use Scheduler\REST\Resource\UserResource;
+use Scheduler\Web\Resource\HoursWorkedSummaryResource;
+use Scheduler\Web\Resource\ShiftResource;
+use Scheduler\Web\Resource\UserResource;
 
 class ServiceConfig extends ContainerConfig
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace spec\Scheduler\REST\Resource;
+namespace spec\Scheduler\Web\Resource;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use Scheduler\Domain\Model\Shift\Shift;
 use Scheduler\Domain\Model\User\User;
-use Scheduler\REST\Resource\UserResource;
+use Scheduler\Web\Resource\UserResource;
 
 class ShiftResourceSpec extends ObjectBehavior
 {

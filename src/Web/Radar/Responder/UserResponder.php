@@ -2,7 +2,7 @@
 
 namespace Scheduler\Web\Radar\Responder;
 
-use Scheduler\REST\Resource\UserResource;
+use Scheduler\Web\Resource\UserResource;
 
 class UserResponder extends ResourceResponder
 {

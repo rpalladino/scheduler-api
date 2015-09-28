@@ -5,7 +5,7 @@ namespace spec\Scheduler\Web\Radar\Responder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use Scheduler\REST\Resource\UserResource;
+use Scheduler\Web\Resource\UserResource;
 
 class UserResponderSpec extends ObjectBehavior
 {
